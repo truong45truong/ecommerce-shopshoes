@@ -1,0 +1,132 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row">
+            <form action="{% url 'productnew' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="d-flex">
+                    <div class="col-6 d-flex flex-column">
+                        <div>
+                            <div class="d-flex me-5 pt-2 align-items-end">
+                                <p class="label-productnew m-auto pe-3 me-1"> Name </p>
+                                {{ form_product.name }}
+                            </div>
+                        </div>
+                        <div class="d-flex me-5 pt-2">
+                            <p class="label-productnew m-auto pe-3 me-1"> Sex </p>
+                            {{ form_product.gender }}
+                        </div>
+                        <div class="d-flex me-5 pt-2 align-items-end">
+                            <p class="label-productnew m-auto pe-3 me-1"> Category </p>
+                            {{ form_product.category_id }}
+                        </div>
+                        <div class="">
+                            <div class="d-flex me-5 pt-2">
+                                <p class="label-productnew m-auto pe-3 me-1"> Price </p>
+                                {{ form_price.price }}
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="d-flex me-5 pt-2">
+                                <p class="label-productnew m-auto pe-3 me-1"> Sale </p>
+                                {{ form_price.sale }}
+                            </div>
+                        </div>
+                        <div class="me-5 pt-2">
+                            {{ form_product.description }}
+                        </div>
+                    </div>
+                    <div class="col-6 ">
+                        <div class="d-flex flex-column">
+                            <div class="d-flex flex-wrap col-auto w-100 p-auto justify-content-center" role="group"
+                                aria-label="Basic radio toggle button group">
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size35">35</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_35"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size36">36</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_36"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size37">37</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_37"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size38">38</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_38"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size39">39</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_39"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size40">40</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_40"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size41">41</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_41"
+                                        placeholder="0">
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size42">42</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_42"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size43">43</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_43"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size44">44</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_44"
+                                        placeholder="0">
+                                </div>
+
+                                <div class="d-flex flex-column">
+                                    <label class="btn btn-outline-secondary" value="0" for="size45">45</label>
+                                    <input class="mx-5 my-1 text-center" type="number" name="sizevalue_45"
+                                        placeholder="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="align-items-start ">
+                    <div class="pt-2 d-flex flex-column w-50 m-auto">
+                        <img class="justify-content-center" src="{% static 'image/camera.jpg' %}"
+                            class="rounded mx-auto d-block" alt="..." >
+                        <div class="m-auto">{{ form_photoproduct.data }}</div>
+                    </div>
+                </div>
+                <input class="d-flex align-items-center m-auto btn btn-success" type="submit" value="submit">
+            </form>
+        </div>
+    </div>
+</main>
+{% for message in messages %}
+<p id='messages' style="color:red;">{{message}}</p>
+{%endfor%}
+{% endblock %}
+{% block javastript %}
+{% load static %}
+<script src="/static/js/productnew.js"></script>
+{% endblock %}

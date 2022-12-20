@@ -1,0 +1,111 @@
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+{% endblock %}
+<header>
+    <div class="top">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="me-4 account-expand">
+              <i class="fa fa-user"></i>
+              {% if current != False %}
+              <p class="content-icon-header mx-2">{{current}}</p>
+              {% else %}
+              <p class="content-icon-header"> <a class="link-danger text-decoration-none mx-2" href="{% url 'login' %}">login</a> </p>
+              {% endif %}
+              <i class="fa-solid fa-caret-down"></i>
+            </div>
+            <div>
+              <i class="fa-sharp fa-solid fa-gear fa-spin"></i>
+              <p class="content-icon-header">setting</p>
+              <i class="fa-solid fa-caret-down"></i>
+            </div>
+          </div>
+          <div class="d-flex">
+            <form id="search" class="me-4">
+              <input class="m-1" type="text" placeholder="   search">
+              <i class="fa fa-search ms-2"></i>
+            </form>
+            <div class="d-flex align-content-center">
+              <a id="shopping-cart-link text-white text-decoration-none" href="{% url 'shoppingcart' %}">
+                <i class="fa-solid fa-cart-shopping me-2 text-white text-decoration-none"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        {% if current != False %}
+        <ul class="account-bar">
+          <div class="container">
+            <li><a class="text-white text-decoration-none" href="{% url 'myaccount' %}">Customers</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'mystore' %}">Manage Store</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'logout' %}">Logout</a></li>
+          </div>
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+    {% if store != True %}
+    <div class="header-bottom">
+      <div class="container">
+        <div class="navbar navbar-expand-lg mb-4 content-header-bottom">
+            <div class="brand">
+              <img id="logo" src="{% static 'image/VALENIA ISABEL1.png' %}">
+            </div>
+            <form id="search-bottom">
+              <input class="m-1" type="text" placeholder="   search">
+              <i class="fa fa-search ms-2"></i>
+            </form>
+            <ul class="navbar-nav">
+              <li class="bar-exit"><i class="fa-solid fa-x"></i></li>
+              <li class="nav-item">
+                <a class="nav-link text-black" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  href="{% url 'introduce' %}">Introduce</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  href="{% url 'contact' %}">Contact</a>
+              </li>
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">Category</a>
+              {% load mptt_tags %}
+              <ul class="root dropdown-menu">
+                {% recursetree list_category %}
+                <li class="dropend">
+                  <a 
+                  {% if not node.is_leaf_node %}
+                  class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
+                  {% else %}
+                  class="dropdown-item"
+                  {% endif %}
+                  href="">
+                    {{ node.name }}
+                  </a>
+                  {% if not node.is_leaf_node %}
+                  <ul class="children dropdown-menu">
+                    {% comment %} <li><a class="dropdown-item" href="account-orders.html">Orders History</a></li> {% endcomment %}
+                    {% for subcate in node.get_children %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'product' slug=subcate.slug %}">{{subcate.name}}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </li>
+                {% endrecursetree %}
+              </ul>
+            </li>
+            </ul>
+            <div id="bar-menu">
+              <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </header>
+{% block javastript %}
+{% load static %}
+<script src="/static/js/header.js"></script>
+{% endblock %}

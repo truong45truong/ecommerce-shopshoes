@@ -1,0 +1,207 @@
+{% extends 'main.html' %}
+
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/storeDetail.css'%}" />
+{% endblock %}
+{% block content %}
+{% load static %}
+<div class="info-store">
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <img alt="Maxwell Admin" class="store-avatar my-5" src="/media/photos/stores/11brand.png">
+            </div>
+            <div class="col-3 d-flex flex-column my-5 justify-content-evenly">
+                <h4>Product :</h4>
+                <h4>Rate : </h4>
+                <h4>Address :</h4>
+            </div>
+            <div class="col-3 d-flex flex-column my-5 justify-content-evenly">
+                <h4>Phone :</h4>
+                <h4>Fax :</h4>
+                <h4>Contact :</h4>
+            </div>
+            <div class="col-3">
+                <form action="" method="POST">
+                    <div class="d-flex flex-column justify-content-evenly my-5 ">
+                        <button class="btn btn-dark my-4" type="submit"> Follow </button>
+                        <button class="btn btn-info my-4" type="submit"> Feeback </button>
+                        <button class ="btn btn-danger my-4" type="submit"> Report </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="show-product">
+    <div class="container">
+        <i><h4 class="m-0 ms-2 my-5"><i class="fa-sharp fa-solid fa-arrow-right"></i> ALL PRODUCTS</h4></i>
+        <div class="row">
+            {% for item in page_obj %}
+            <div class="col-md-2 col-6 mb-2">
+              <div class="position-relative content-col">
+                <a href="ProductDetail.html">
+                  <img src="/media/photos/products/{{item.photo_products__name}}">
+                </a>
+                <div class="ribbon new">
+                  <div class="theribbon"><p>New</p> </div>
+                </div>
+                {% if item.prices__sale > 0%}
+                  <div class="ribbon sale">
+                    <div class="theribbon price-sale"><p>-{{item.prices__sale}} %</p> </div>
+                  </div>
+                  <p class="position-absolute price-value-product"> {{item.prices__price}} đ</p>
+                {% endif %}
+                <div class="text-center content-card">
+                  <span id="slug-product-detail-{{item.slug}}" class="d-none">{{item.slug}}</span>
+                  <p class="name-product" id="name-product-{{item.slug}}" > {{item.name}}</p>
+                  {% if item.sex == 0 %}
+                  <p class="sex-product" id="sex-product-{{item.slug}}">All</p>
+                  {% endif %}
+                  {% if item.sex == 1 %}
+                  <p class="sex-product" id="sex-product-{{item.slug}}">Men</p>
+                  {% endif %}
+                  {% if item.sex == 2 %}
+                  <p class="sex-product" id="sex-product-{{item.slug}}">Women</p>
+                  {% endif %}
+                  <p class="name-product" id="price-total-product-{{item.slug}}"> {{item.prices__price_total}} đ</p>
+                  <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.slug}}">
+                    <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart</button>
+                </div>
+              </div>
+              <div class="modal fade modalQuickShop" id="exampleModal{{item.slug}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <form action="" class="form">
+                      <div class="modal-header">
+                        <a class="modal-title h5 mb-0" href="ProductDetail.html" tabindex="0">{{item.name}}</a>
+                        <button type="button" class="btn-close btn-close-white close-outside" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body pt-0">
+                        <div class="border-top w-100 pb-2"></div>
+                        <div class="row">
+                          <div class="col-5">
+                            <div class="images modalItemImg">
+                              <a href="">
+                                <img src="/media/photos/products/{{item.photo_products__name}}" class="d-block w-100" alt="...">
+                              </a>
+                            </div>
+                          </div>
+                          <div class="col-7">
+                            {% if item.sex == 0 %}
+                              <small class="sex-product">All</small>
+                            {% endif %}
+                            {% if item.sex == 1 %}
+                              <small class="sex-product">Men</small>
+                            {% endif %}
+                            {% if item.sex == 2 %}
+                              <small class="sex-product">Women</small>
+                            {% endif %} 
+                            <h5 class=""><span id="price" name="price_add_to_cart">{{item.prices__price_total}}</span></h5>
+                            <div class="row g-3 align-items-center">
+                              <label for="selectSize" class="col-auto me-4">Size:</label>
+                              <!-- <br> -->
+                              <div class="flex-wrap col-auto" role="group" aria-label="Basic radio toggle button group">
+                                <ul id="list-size-{{item.slug}}" class="list-size">
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option1-{{item.slug}}" title="35" value="1" checked>
+                                    <label class="btn btn-outline-secondary" for="option1-{{item.slug}}">35</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option2-{{item.slug}}" title="36" value="0">
+                                    <label class="btn btn-outline-secondary" for="option2-{{item.slug}}">36</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option3-{{item.slug}}" title="37" value="0">
+                                    <label class="btn btn-outline-secondary" for="option3-{{item.slug}}">37</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option4-{{item.slug}}" title="38" value="0">
+                                    <label class="btn btn-outline-secondary" for="option4-{{item.slug}}">38</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option5-{{item.slug}}" title="39" value="0">
+                                    <label class="btn btn-outline-secondary" for="option5-{{item.slug}}">39</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option6-{{item.slug}}" title="40" value="0">
+                                    <label class="btn btn-outline-secondary" for="option6-{{item.slug}}">40</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option7-{{item.slug}}" title="41" value="0">
+                                    <label class="btn btn-outline-secondary" for="option7-{{item.slug}}">41</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option8-{{item.slug}}" title="42" value="0">
+                                    <label class="btn btn-outline-secondary" for="option8-{{item.slug}}">42</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option9-{{item.slug}}" title="43" value="0">
+                                    <label class="btn btn-outline-secondary" for="option9-{{item.slug}}">43</label>
+                                  </li>
+                                  
+                                  <li class="btn-select-size">
+                                    <input type="checkbox" class="btn-check" name="options" id="option10-{{item.slug}}" title="44" value="0">
+                                    <label class="btn btn-outline-secondary" for="option10-{{item.slug}}">44</label>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <br>
+                            <!-- <label for="quantityProduct" class="text-muted">Quantity:&nbsp;&nbsp;</label>
+                            <input type="number" value="0" size="1" min="0" max="10" id="quantity"/> -->
+                            <div class="row g-3 align-items-center">
+                                <div class="col-auto">
+                                    <label for="quantityProduct" class="col-form-label">Quantity:</label>
+                                </div>
+                                <div class="col-auto">
+                                  <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-secondary" 
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                      <i class="fas fa-subtract"></i>
+                                    </button>
+                                    <input id="quantity-product-{{item.slug}}" type="number" name="quantityItem" min="0" max="20" size="1" value="1" class="text-center"/>
+                                    <button type="button" class="btn btn-outline-secondary"
+                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                    <i class="fas fa-plus"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="col-auto">
+                                    <span id="quantityAvail" class="form-text">
+                                        360 pieces available
+                                    </span>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer pb-3">
+                        <div class="modalAddCart"> 
+                          <button type="button" class="btn btn-primary modalAddCart" id="addtocart" value="{{item.slug}}">
+                            <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javastript %}
+{% load static %}
+<script src="/static/js/mystore.js"></script>
+{% endblock %}

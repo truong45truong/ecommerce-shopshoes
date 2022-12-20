@@ -1,0 +1,46 @@
+
+{% extends 'main.html' %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}" />
+{% endblock %}
+{% block content %}
+{% load static %}
+<main>
+    <div class="container">
+        <div class="wrapper">
+                <div class="inner">
+                    <form action="{% url 'contact' %}" method ='POST'>
+                        {% csrf_token %}
+                        <h3>Liên hệ với chúng tôi</h3>
+                        <p>Chúng tôi sẽ phản hồi bạn nhanh nhất và tiếp thu tích cực ý kiến của bạn nếu không dc câu trả lời như ý 
+                            .Hãy gọi vào Hotline 24/7: 1900 1518</p>
+                        <label class="form-group">
+                            <input type="text" name="name" class="form-control"  required>
+                            <span>Họ và tên </span>
+                            <span class="border"></span>
+                        </label>
+                        <label class="form-group">
+                            <input type="text" name="reason" class="form-control"  required>
+                            <span>Lí do bạn gửi chúng tôi </span>
+                            <span class="border"></span>
+                        </label>
+                        <label class="form-group">
+                            <input type="text" class="form-control"  name='mail' required>
+                            <span for="">Mail</span>
+                            <span class="border"></span>
+                        </label>
+                        <label class="form-group" >
+                            <textarea name="content" id="" class="form-control" required></textarea>
+                            <span for="">Nội dung</span>
+                            <span class="border"></span>
+                        </label>
+                        <button type="submit">Gửi 
+                            <i class="zmdi zmdi-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+    </div>
+</main>
+{% endblock %}

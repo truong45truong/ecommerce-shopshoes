@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="banner">
+        <header class="position-relative text-center text-white mb-5">
+          <img src="https://www.npd.com/wp-content/uploads/2021/05/footwear-banner-1440x480.jpeg" alt="" class="w-100">
+          <div class="position-absolute start-50 bottom-50 translate-middle-x w-100 px-3">
+            <h1 class="display-6">
+              Product
+            </h1>
+          </div>
+        </header>
+      </div>
+    <div class="container">
+     <h1>Bạn chưa đăng kí tài khoảng với tư cách là cửa hàng</h1>
+    <a class="link-warning text-decoration-none" href="{% url 'registerstore' %}"><h2>Đăng kí Ngay để nhận các ưu đãi tốt nhất của chúng tôi</h2></a>
+    </div>
+</main>
+
+{% endblock %}
+{% block javastript %}
+{% load static %}
+<script src="/static/js/productnew.js"></script>
+{% endblock %}

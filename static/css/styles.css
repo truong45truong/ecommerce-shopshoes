@@ -1,0 +1,218 @@
+body{
+    font-family: 'Roboto', sans-serif;
+}
+.top{
+    background-color: rgb(13, 41, 47);
+    color: #fff;
+    line-height: 39px;
+    font-size: 12px;
+}
+.sale-product-img{
+    position: relative;
+    top:-200px;
+    right: -120PX;
+    width: 30%;
+  }
+.banner{
+    z-index: 1;
+}
+.menu{
+    list-style-type: none;
+    display: flex;
+}
+.nav-item{
+    margin-right: 4rem;
+}
+.content-icon-header{
+    display: inline;
+}
+.content-header-bottom{
+    display: flex;
+    flex-direction: column;
+}
+header .top{
+    font-size: 16px;
+}
+#search input{
+    border-color: transparent;
+    border-radius:10px;
+}
+#bar-menu{
+    display: none;
+}
+#search-bottom{
+    display: none;
+}
+.d-flex{
+    align-items: center;
+}
+#logo{
+    resize: 100px;
+}
+.menu{
+    font-weight: 500;
+}
+.bar-exit{
+    display: none;
+}
+hr{
+    width: 10%;
+    margin: auto;
+}
+img{
+    width: 100%;
+    height: auto;
+}
+.icon-new-product{
+    font-size: 20px;
+}
+.pagination-product{
+    text-align: right;
+}
+.btn-pagination-product{
+    color: black;
+    border: none;
+    font-size: 1.5rem;
+    background-color: transparent;
+}
+.btn-pagination-product:hover{
+    color: #fff;
+    background-color: black;
+}
+.price{
+    margin-top: 1rem;
+    font-size: 16px;
+    font-weight: 200;
+}
+.name-product{
+    font-size: 16px;
+    font-weight: 300;
+}
+.sex-product{
+    color: rgb(188,188,188);
+}
+.title-new{
+    margin-top: 15px;
+    font-size: 14px;
+}
+.detail-new{
+    font-size: 12px;
+    font-weight: 200;
+}
+.category-product{
+    background-color: rgb(245,245,229);
+}
+.link-category-product{
+    color: black;
+    text-decoration: none;
+}
+.category-product hr{
+    width: 100%;
+}
+.getoff{
+    background-color: rgb(237,231,52);
+}
+.btn-sign-up-free{
+    background-color: black;
+    color: #fff;
+    box-shadow: 5px 5px rgb(40, 40, 77);
+}
+.footer-top i {
+    font-size: 20px;
+}
+.footer-top i p{
+    font-size: 16px;
+    display: inline;
+}
+.btn-sign-up-free:hover{
+    background-color: rgb(128, 0, 128);
+    box-shadow: 5px 5px rgb(166, 23, 166);
+}
+.content-card{
+    margin-bottom: 1rem;
+}
+.nav-item a{
+    text-decoration: none;
+    color: black;
+}
+.nav-item a:hover{
+    text-decoration: none;
+    color: #0d6efd;
+}
+.fa-search{
+    cursor: pointer;
+}
+.fa-cart-shopping{
+    cursor: pointer;
+}
+.content-col:hover{
+    border: 1px solid black;
+    text-align: center;
+}
+
+.navbar .dropdown-menu .dropend .dropdown-menu {
+    top: 0;
+    right: auto;
+    left: 100%;
+    background-color: #fff;
+    margin-top: -0.5rem;
+    margin-right: 0;
+    border-radius: 0;
+}
+.dropdown-menu[data-bs-popper] {
+    top: 100%;
+    left: 0;
+    margin-top: 0;
+    margin-left: 0;
+}
+.navbar .dropdown-menu.show {
+    display: none;
+}
+.navbar-nav .dropdown:hover>.dropdown-menu, 
+.navbar-nav .dropend:hover>.dropdown-menu {
+    display: block;
+    -webkit-animation: slide-up .25s ease-in-out;
+    animation: slide-up .25s ease-in-out;
+}
+.navbar .dropdown-menu:not(.dropdown-menu-dark) {
+    border-color: #fff;
+    background-color: #fff;
+}
+.navbar-nav .nav-item:hover .nav-link:not(.disabled) {
+    color: #fe696a;
+}
+.navbar-nav .dropdown-menu {
+    min-width: 12.5rem;
+    /* padding-top: 5px; */
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+}
+.dropdown-menu li:hover>.dropdown-item {
+    color: #fe696a;
+    background-color: transparent;
+}
+.dropdown-item {
+    position: relative;
+    width: 100%;
+    transition: all .25s ease-in-out;
+    font-size: .875rem;
+    font-weight: normal;
+    line-height: 25px;
+}
+.navbar-nav .nav-item.active .nav-link:not(.disabled)>i, 
+.navbar-nav .nav-item.show .nav-link:not(.disabled)>i, 
+.navbar-nav .nav-item.dropdown .nav-link:focus:not(.disabled)>i, 
+.navbar-nav .nav-item.active .nav-link:not(.disabled), 
+.navbar-nav .nav-item.show .nav-link:not(.disabled), 
+.navbar-nav .nav-item.dropdown .nav-link:focus:not(.disabled) {
+    color: #fe696a;
+}
+.dropend .dropdown-toggle::after{
+    position: absolute;
+    display: block;
+    top: 50%;
+    right: 1rem;
+    margin-top: -0.3em;
+}

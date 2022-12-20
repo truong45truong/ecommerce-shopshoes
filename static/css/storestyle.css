@@ -1,0 +1,181 @@
+
+/* CSS */
+.button-62 {
+  background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+  border: 0;
+  border-radius: 12px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 2.5;
+  outline: transparent;
+  padding: 0 1rem;
+  text-align: center;
+  text-decoration: none;
+  transition: box-shadow .2s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.button-62:not([disabled]):focus {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+.button-62:not([disabled]):hover {
+  box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+
+
+/* CSS */
+.button-91 {
+    background: linear-gradient(to bottom right, #5bb1eb, #2372a7);
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+  }
+  
+  .button-91:not([disabled]):focus {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+  }
+  
+  .button-91:not([disabled]):hover {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+  }
+
+  .button-911 {
+    background: linear-gradient(to bottom right, #6be98a, #2372a7);
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.5;
+    outline: transparent;
+    padding: 0 1rem;
+    text-align: center;
+    text-decoration: none;
+    transition: box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+  }
+  
+  .button-911:not([disabled]):focus {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+  }
+  
+  .button-911:not([disabled]):hover {
+    box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+  }
+  .img-product {
+    width : 25%;
+}
+table{
+  width: 100%;
+  margin: auto;
+}
+tr th{
+  margin: auto;
+  border: 1px solid #f4f4f4;
+  justify-content: space-between;
+}
+tr th span{
+  display:  inline;
+}
+.head-table{
+  display: flex;
+}
+.btn-select-show .index-btn{
+  display: flex;
+  text-align: right;
+  list-style-type: none;
+}
+p{
+  display: inline;
+}
+.active{
+  background-color: rgb(51,122,183);
+  color: white;
+  border:1px solid rgb(51,122,183);
+}
+.active:hover{
+  background-color: rgb(51,122,183);
+  color: white;
+  border:1px solid rgb(51,122,183);
+}
+table {
+  background-color: rgb(229, 224, 217);
+}
+.quantity-show{
+  display: flex;
+  align-items: center ;
+}
+.search-show{
+  display: flex;
+  align-items: center;
+}
+th{
+  border:2px solid rgb(51,122,183);
+  padding: 10px;
+  background-color: rgba(250, 243, 243);
+}
+th:hover{
+  cursor: pointer;
+}
+tr{
+  background-color: white;
+  padding: 5px;
+  border:1px soild #777;
+}
+td{
+  padding: 5px;
+}
+select{
+  padding: 5px 3px;
+  margin: 10px;
+  border-color: #777;
+}
+select option {
+  padding:0;
+  margin: 0
+}
+input.search-txt{
+  font-size: 16px;
+}
+p{
+  font-size: 16px;
+  margin: 5px;
+}
+#prev-page .stop-prev:hover{
+  opacity: 0.8;
+}
+#prev-page .stop-prev:hover{
+  cursor: not-allowed;
+}
+#next-page .stop-next:hover{
+  cursor: not-allowed;
+}

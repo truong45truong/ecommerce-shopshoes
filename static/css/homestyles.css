@@ -1,0 +1,14 @@
+.account-expand{
+    cursor: pointer;
+}
+.account-bar{
+    background-color: rgba(13, 41, 47,0.9);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+}
+.account-bar a{
+    list-style-type: none;
+    text-decoration: none;
+}

@@ -1,0 +1,195 @@
+{% extends 'main.html' %}
+{% block style %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/productstyle.css' %}" />
+{% endblock %}
+{% block content %}
+{% load static %}
+  <main>
+    <div class="banner">
+      <header class="position-relative text-center text-white mb-5">
+        <img src="https://www.npd.com/wp-content/uploads/2021/05/footwear-banner-1440x480.jpeg" alt="" class="w-100">
+        <div class="position-absolute start-50 bottom-50 translate-middle-x w-100 px-3">
+          <h1 class="display-6">
+            Product
+          </h1>
+        </div>
+      </header>
+    </div>
+    <div class="container">
+      <div class="row justify-content-around">
+        <div class="col-sm-3">
+					<div class="left-sidebar">
+						<h2>Filter</h2>
+            {% load mptt_tags %}
+            <h5 class="text-center">Category</h5>
+						<div class="panel-group category-products" id="accordian">
+							<div class="root panel panel-default">
+
+                
+
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a href="{% url 'product' slug='0' %}">
+                    All
+										</a>
+									</h4>
+								</div>
+                {% recursetree list_category %}
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-bs-toggle="collapse" data-parent="#accordian" href="#filter{{node.get_root.name}}">
+                    <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+											{{ node.name }}
+										</a>
+									</h4>
+								</div>
+                {% if not node.is_leaf_node %}
+								<div id="filter{{node.get_root.name}}" class="children panel-collapse collapse">
+									<div class="panel-body">
+										<ul class="list-unstyled">
+                    <li>
+                      <a href="{% url 'product' slug=node.slug %}">{{subcate.name}}</a>
+                      {% comment %} <a href="{% url 'product' slug=subcate.slug %}">{{subcate.name}}</a> {% endcomment %}
+                    </li>
+                    {% for subcate in node.get_children %}
+                    <li>
+                      <a href="{% url 'product' slug=subcate.slug %}">{{subcate.name}}</a>
+                      {% comment %} <a href="{% url 'product' slug=subcate.slug %}">{{subcate.name}}</a> {% endcomment %}
+                    </li>
+                    {% endfor %}
+										</ul>
+									</div>
+								</div>
+                {% endif %}
+                {% endrecursetree %}
+							</div>
+						</div><!--/category-productsr-->
+						
+            <h5 class="text-center">Product for</h5>
+
+            <div class="panel-group category-products" id="accordian">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<ul class="list-unstyled">
+                      <li>
+                        <a href="?sexselect=0">
+                          <p class="">All</p>
+                        </a>
+                        <a href="?sexselect=1">
+                          <p class="" id="sex-product-detail">Men</p>
+                        </a>
+                        <a href="?sexselect=2">
+                          <p class="">Women</p>
+                        </a>
+                      </li>
+										</ul>
+									</h4>
+								</div>
+							</div>
+						</div><!--/category-productsr-->
+
+            <h5 class="text-center">Price range</h5>
+            <div>
+                <input type="text" name="minprice" id=""> 
+                -- 
+                <input type="text" name="maxprice" id="">
+                <button type="submit">Apply</button>
+            </div>
+
+					</div>
+				</div>
+
+        <div class="col-xl-9 pe-0">
+          <div class="right-sidebar">
+					  <h2 class="title text-center">Items</h2>
+            <div class="sortItems">
+              <div class="mb-3 d-flex align-items-center">
+                <span class="d-inline-block me-2">Sort by</span>
+                <select name="sortby" class="form-select price-sort w-auto border-0" aria-label="Default select example" onchange = "window.location.href =  this.value">
+                    {% comment %} <option disabled selected value>All Price</option> {% endcomment %}
+                    <option value="?sortby=lastest" {% if sortby == "lastest" %} selected = "selected" {%endif%}>Lastest</option>
+                    <option value="?sortby=highrate"{% if sortby == "highrate" %} selected = "selected" {%endif%}>High Rate</option>
+                    <option value="?sortby=lowtohigh"{% if sortby == "lowtohigh" %} selected = "selected" {%endif%}>Price: Low to High</option>
+                    <option value="?sortby=hightolow"{% if sortby == "hightolow" %} selected = "selected" {%endif%}>Price: High to Low</option>
+                  </select>
+              </div>
+            </div>
+
+            <div class="row">
+              {% for pro in products %}
+              {% load humanize %}
+                <div class="col-md-3 col-5 mb-2 ">
+                  <div class="content-col justify-content-between">
+                    <a href="{% url 'productdetail' slug=pro.slug %}"><img src="{% static 'image/sp1.png' %}">
+                    <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
+                    </a>
+                    {% if pro.prices__sale > 0.0 %}
+                    <div class="ribbon sale">SALE {{pro.prices__sale}}%</div>
+                    {% endif %}
+                    <div class="text-center content-card">
+                      <p>{{pro.id}}</p>
+                      <p class="price">
+                        {{pro.prices__price_total|intcomma}}VND
+                      </p>
+                      <a href="" class="text-decoration-none"><p class="name-product">{{pro.name}}</p></a>
+                      {% if pro.sex == 0 %}
+                      <p class="sex-product">Men & Women</p>
+                      {% endif %}
+                      {% if pro.sex == 1 %}
+                      <p class="sex-product" id="sex-product-detail">Men</p>
+                      {% endif %}
+                      {% if pro.sex == 2 %}
+                      <p class="sex-product">Women</p>
+                      {% endif %}
+                      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal{{pro.slug}}">
+                        <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart</button>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+
+
+
+              <br>
+
+
+              <div class="pages mt-5">
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center" style="height: 8%">
+                  <ul class="pagination">
+                    {% if products.has_previous %}
+                      <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+                      <li class="page-item"><a class="page-link" href="?page={{products.previous_page_number}}">Previous</a></li>
+                    {% endif %}
+                    {% for i in nums %}
+                      <li 
+                        {% if forloop.counter == page %}
+                          class="page-item active"
+                        {% else %}
+                          class="page-item"
+                        {% endif %}><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                    {% endfor %}
+                    {% if products.has_next %}
+                      <li class="page-item"><a class="page-link" href="?page={{products.next_page_number}}">Next</a></li>
+                      <li class="page-item"><a class="page-link" href="?page={{products.paginator.num_pages}}">Last &raquo</a></li>
+                    {% endif %}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <link rel="stylesheet"  href="{% static 'js/product.js'%}"/>
+   {% include 'footer.html' %}
+{% endblock %}
+{% block javastript %}
+{% load static %}
+<script src="/static/js/product.js"></script>
+{% endblock %}

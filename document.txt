@@ -1,0 +1,19 @@
+cmd:
+
+source/env/bin/activate 
+vao moi truong env python
+
+database
+
+1 -> python manage.py makemigrations -> python manage.py migrate
+tao models trong database 
+2 -> python manage.py createsuperuser 
+tao tk admin
+
+package : 
+pip install -r requirement.txt
+
+runserver 
+
+1 -> python manage.py runserver ____ ( không hoặc host)
+settings - > ALLOWHOST[host]
