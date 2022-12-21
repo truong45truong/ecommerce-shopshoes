@@ -1,0 +1,25 @@
+</html>
+{% extends "main.html" %}
+{% block style %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/payment.css' %}" />
+{% endblock %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+        <input id="id_cmd" name="cmd" type="hidden" value="_xclick"><input id="id_charset" name="charset" type="hidden"
+            value="utf-8"><input id="id_currency_code" name="currency_code" type="hidden" value="USD"><input
+            id="id_no_shipping" name="no_shipping" type="hidden" value="1"><input id="id_business" name="business"
+            type="hidden" value="sb-ipzcv22342999@business.example.com"><input id="id_amount" name="amount"
+            type="hidden" value="20.00"><input id="id_item_name" name="item_name" type="hidden" value="Product 1"><input
+            id="id_invoice" name="invoice" type="hidden" value="826956bb-8db8-4b89-b927-86d67ed7929f"><input
+            id="id_curency_code" name="curency_code" type="hidden" value="VND"><input id="id_notify_url"
+            name="notify_url" type="hidden" value="http://127.0.0.1:8000,/paypal/"><input id="id_cancel_return"
+            name="cancel_return" type="hidden" value="http://127.0.0.1:8000,/payment/paypal-cancel"><input
+            id="id_return" name="return" type="hidden" value="http://127.0.0.1:8000,/payment/paypal-reverse%22">
+        <input class="btn-paypal" alt="Buy it Now" name="submit" src="{% static 'image/paypal-buy.png' %}" type="image">
+    </form>
+</div>
+
+{% endblock %}

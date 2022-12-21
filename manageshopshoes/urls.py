@@ -30,5 +30,6 @@ urlpatterns = [
     path('api/',include('order.api.urls')),
     path('api/',include('login.api.urls')),
     path('api/',include('store.api.urls')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
