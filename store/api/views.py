@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from .serializers import StoreSerializer
 from login.models import User,Store
 
-class Storeviewset(viewsets.ModelViewset):
+class Storeviewset(viewsets.ModelViewSet):
     serializer_class = StoreSerializer
     queryset = Store.objects.all()
     
@@ -19,3 +19,17 @@ class Storeviewset(viewsets.ModelViewset):
         phone = request.POST.get('phone')
         address = request.POST.get('address')
         birthday = request.POST.get('birthday')
+        
+    @action(method = ['GET'],detail=False, url_path ="store" , url_name="get_store")
+    def get_store(self,request, *args, **kwargs):
+        emailStore = request.GET.get('email-store')
+        emailUser = request.GET.get('email-user')
+        print(emailStore)
+        queryset = Store.objects.filter(email=emailStore,users__email=emailUser)
+        serializer = StoreSerializer(queryset,many=True)
+        
+        return Response(serializer.data)
+    @action (method = ['PUT'],detail=False, url_path ="store" , url_name="put_store")
+    def put_store(self,request, *args, **kwargs):
+        dataPut = request.PUT.get('data')
+        return Response(dataPut)
