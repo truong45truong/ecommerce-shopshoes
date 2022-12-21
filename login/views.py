@@ -9,9 +9,10 @@ from django.contrib.auth.backends import ModelBackend
 from product.models import Categories
 import shutil
 import os
+from django.conf import settings
 
-path_upload = "/home/truobg/Tài liệu/dulieu/Congty/8-2022/djangotrain/PBL/manageshopshoes/media_upload/photos"
-path_root = "/home/truobg/Tài liệu/dulieu/Congty/8-2022/djangotrain/PBL/manageshopshoes/media/photos"
+path_upload = str(settings.BASE_DIR)+"/media_upload/photos"
+path_root = str(settings.BASE_DIR)+"/media/photos"
 
 # Create your views here.
 
