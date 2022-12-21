@@ -3,11 +3,9 @@ from login.models import User
 from rest_framework import serializers
 import datetime
 class UserSerializer(Serializer):
-    username = serializers.CharField(source="user.username")
-    password = serializers.CharField( source="user.password",
+    username = serializers.CharField()
+    password = serializers.CharField(
     style={'input_type': 'password'})
-    name = serializers.CharField(source="user.name")
-    email = serializers.EmailField(source="user.email")
-    phone = serializers.CharField(source="user.phone")
-    address = serializers.CharField(source="user.address")
-    birthday = serializers.DateField(initial=datetime.date.today,source="user.birthday")
+    name = serializers.CharField()
+    email = serializers.EmailField()
+    phone = serializers.CharField()

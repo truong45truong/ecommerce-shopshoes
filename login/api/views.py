@@ -15,10 +15,12 @@ class Userviewset(viewsets.ModelViewSet):
     def get_user(self,request,*args, **kwargs):
         username = request.GET.get('username')
         password = request.GET.get('password')
-        queryset = User.objects.filter(username=username,password=password)
-        
-        serializer = UserSerializer(queryset,many=True)
-        return Response(serializer.data)
+        queryset = User.objects.filter(username=username)
+        if queryset[0].check_password(password):
+            serializer = UserSerializer(queryset,many=True)
+            return Response(serializer.data)
+        else :
+            return Response(False)
     @action(methods=['POST'],detail=False,url_path='user',url_name='post_user')
     def post_user(self, request, *arg, **kwargs):
         if request.method == 'POST':
@@ -41,4 +43,7 @@ class Userviewset(viewsets.ModelViewSet):
         
         serializer = UserSerializer(queryset,many=True)
         return Response(serializer.data)
-        
+    @action(methods=['PUT'],detail=False , url_path="user",url_name="put_user")
+    def put_user (self,request,*args , **kwargs):
+        user = request.PUT.get('user')
+        return Response(user)
