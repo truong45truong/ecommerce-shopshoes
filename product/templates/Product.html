@@ -191,6 +191,71 @@
 
     </div>
   </main>
+
+{% load humanize %}
+  <div class="modal fade modalQuickShop" id="modal{{pro.slug}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form action="" class="form">
+          <div class="modal-header">
+            <a class="modal-title h5 mb-0" href="" tabindex="0">{{pro.name}}</a>
+            <button type="button" class="btn-close btn-close-white close-outside" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body pt-0">
+            <div class="border-top w-100 pb-2"></div>
+            <div class="row">
+              <div class="col-5">
+                <div class="images modalItemImg">
+                  <a href="">
+                    <img src="{% static 'img/sp1.png'%}" class="d-block w-100" alt="...">
+                  </a>
+                </div>
+              </div>
+              <div class="col-7">
+                <small class="sex-product">{{pro.name}}</small> 
+                <h5 class=""><span id="price">{{pro.prices__price}}</span></h5>
+                {% for size in list_size %}
+                <div class="row g-3 align-items-center">
+                  <label for="selectSize" class="col-auto me-4">Size:</label>
+                  <!-- <br> -->
+                  <div class="flex-wrap col-auto" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="options" id="option{{size.size}}" autocomplete="off">
+                    <label class="btn btn-outline-secondary" for="option{{size.size}}">{{sizes.size}}</label>
+                    
+                    
+                  </div>
+                </div>
+                <br>
+                <!-- <label for="quantityProduct" class="text-muted">Quantity:&nbsp;&nbsp;</label>
+                <input type="number" value="0" size="1" min="0" max="10" id="quantity"/> -->
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="quantityProduct" class="col-form-label">Quantity:</label>
+                    </div>
+                    <div class="col-auto">
+                      <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-subtract"></i></button>
+                        <input name="quantityItem" min="0" max="20" size="1" value="0" class="text-center"/>
+                        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                        <span id="quantityAvail" class="form-text">
+                            {{pro.sizes__quantity}} pieces available
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer pb-3">
+            <div class="modalAddCart">
+              <button type="button" class="btn btn-primary modalAddCart">
+                <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart</button>
+            </div>
+          </div>
+
    {% include 'footer.html' %}
 {% endblock %}
 {% block javastript %}
