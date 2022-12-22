@@ -57,7 +57,7 @@
             <div class="row my-5">
               <div class="col-6 d-flex align-items-center">
                 <i class="icon-new-product fa-sharp fa-solid fa-arrow-right"></i>
-                <i><h4 class="m-0 ms-2">NEW PRODUCTS</h4></i>
+                <i><h4 class="m-0 ms-2">Sản phẩm mới</h4></i>
               </div>
               <div class="col-6 pagination-product">
                 <button class="btn-pagination-product me-2" type="button" data-bs-target="#carouselProduct" data-bs-slide="prev">
@@ -69,86 +69,44 @@
               </div>
             </div>
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="row">
-                  <div class="col-md-3 col-6 mb-2">
-                    <div class="content-col">
-                      <img src="{% static 'image/sp1.png' %}">
-                      <div class="text-center content-card">
-                        <h5 class="price"> 2.500.000đ</h5>
-                        <p class="name-product"> Stan Smith Shoe</p>
-                        <p class="sex-product">Women Originals</p>
-                        <p class="state-product"> new </p>
-                        <button class="btn btn-dark">More</button>
+                  {% for i in products %}
+                  <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                    <div class="row">
+                      {% for pro in products %}
+                      {% load humanize %} 
+                      <div class="col-md-3 col-5 mb-2 ">
+                        <div class="content-col justify-content-between">
+                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="/media/{{pro.photo_products__data}}"></a>
+                          {% if pro.prices__sale > 0.0 %}
+                          <div class="ribbon sale">SALE&nbsp{{pro.prices__sale}}%</div>
+                          <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
+                          {% endif %}
+                          <div class="text-center content-card">
+                            <p>{{pro.id}}</p>
+                            <p class="price">
+                              {{pro.prices__price|intcomma}}VND
+                            </p>
+                            <a href="" class="text-decoration-none"><p class="name-product">{{pro.name|truncatechars:30}}</p></a>
+                            {% if pro.sex == 0 %}
+                            <p class="sex-product">Cả nam và nữ</p>
+                            {% endif %}
+                            {% if pro.sex == 1 %}
+                            <p class="sex-product" id="sex-product-detail">Nam</p>
+                            {% endif %}
+                            {% if pro.sex == 2 %}
+                            <p class="sex-product">Nữ</p>
+                            {% endif %}
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal{{pro.slug}}">
+                              <i class="fa-solid fa-cart-shopping me-2"></i>Thêm vào giỏ hàng</button>
+                          </div>
+                        </div>
                       </div>
+                      {% endfor %}
+                      
                     </div>
                   </div>
-                  <div class="col-md-3 col-6 mb-2">
-                    <div class="content-col">
-                      <img src="{% static 'image/sp2.png' %} ">
-                      <div class="text-center content-card">
-                        <h5 class="price"> 2.500.000đ</h5>
-                        <p class="name-product"> Stan Smith Shoes</p>
-                        <p class="sex-product">Women Originals</p>
-                        <p class="state-product"> new </p>
-                        <button class="btn btn-dark">More</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-6 mb-2">
-                    <div class="content-col">
-                      <img src="{% static 'image/sp3.png' %}">
-                      <div class="text-center content-card">
-                        <h5 class="price"> 6.300.000đ</h5>
-                        <p class="name-product"> Yeezy boost 380</p>
-                        <p class="sex-product">Men Originals</p>
-                        <p class="state-product"> new </p>
-                        <button class="btn btn-dark">More</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-6 mb-2">
-                    <div class="content-col">
-                      <img src="{% static 'image/sp4.png' %}">
-                      <div class="text-center content-card">
-                        <h5 class="price"> 2.500.000đ</h5>
-                        <p class="name-product"> Stan Smith Shoes</p>
-                        <p class="sex-product">Women Originals</p>
-                        <p class="state-product"> new </p>
-                        <button class="btn btn-dark">More</button>
-                      </div>
-                    </div>
-                  </div>
+                  {% endfor %}
                 </div>
-              </div>
-              <div class="carousel-item">
-                <div class="row">
-                  <div class="col-md-3 col-6 mb-2">
-                    <div class="content-col">
-                      <img src="{% static 'image/sp5.png' %}">
-                      <div class="text-center content-card">
-                        <h5 class="price"> 2.800.000đ</h5>
-                        <p class="name-product"> Super Shoes</p>
-                        <p class="sex-product">Women Originals</p>
-                        <p class="state-product"> new </p>
-                        <button class="btn btn-dark">More</button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-6 mb-2">
-                    <div class="content-col">
-                      <img src="{% static 'image/sp6.png' %}">
-                      <div class="text-center content-card">
-                        <h5 class="price"> 3.600.000đ</h5>
-                        <p class="name-product">NMD-R1 Shoes</p>
-                        <p class="sex-product">Women Originals</p>
-                        <p class="state-product"> new </p>
-                        <button class="btn btn-dark">More</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
           </div>
         </div>
       </div>

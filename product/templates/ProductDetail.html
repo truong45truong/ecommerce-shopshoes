@@ -1,5 +1,5 @@
 {% extends 'main.html' %}
-
+{% block title %}{{product.name}}{% endblock title %}
 {% block style %}
 {% load static %}
     <link rel="stylesheet"  href="{% static 'css/productdetailstyle.css'%}"/>
@@ -8,25 +8,20 @@
 {% load static %}
   <main>
     <div class="container">
-        <div class="row py-5 g-5">
-              {% comment %} {% for pro in product %} {% endcomment %}
+        <div class="row py-5 g-5 product_data">
               {% load humanize %}
             <div id="carouselExampleControls" class="carousel col-12 col-lg-6" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                  {% for i in imgProduct %}
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{forloop.counter0}}" {% if forloop.first %} class="active" {% endif %} aria-current="true" aria-label="Slide {{forloop.counter}}"></button>
+                  {% endfor %}
                 </div>
                 <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="{% static 'image/sp1.png' %}" class="d-block w-100" alt="...">
+                  {% for i in imgProduct %}
+                  <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                    <img src="/media/{{i.data}}" class="d-block w-100" alt="{{i.name}}">
                   </div>
-                  <div class="carousel-item">
-                    <img src="{% static 'image/sp2.png' %}" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="{% static 'image/sp3.png' %}" class="d-block w-100" alt="...">
-                  </div>
+                  {% endfor %}
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -38,22 +33,32 @@
                 </button>
             </div>
             <div class="col-12 col-lg-6">
+              {% csrf_token %}
                 <h2 id="name-product">{{product.name}}</h2>
-                <small class="sex-product">{{product.description}}</small> 
+                <!-- <small class="sex-product">{{product.description}}</small>  -->
+                {% if product.sex == 0 %}
+                        <small class="sex-product">Cả nam và nữ</small>
+                        {% endif %}
+                        {% if product.sex == 1 %}
+                        <small class="sex-product" id="sex-product-detail">Nam</small>
+                        {% endif %}
+                        {% if product.sex == 2 %}
+                        <small class="sex-product">Nữ</small>
+                        {% endif %}
                 <h5 class="my-4">
                 {% if priceProduct.sale == 0.0 %}
                           {{priceProduct.price|intcomma}}VND
                         {% else %}
                           <span class="small"><del>{{priceProduct.price|intcomma}}VND</del></span>
                           &nbsp {{priceProduct.price_total|intcomma}}VND
-                          &nbsp<span class="">{{priceProduct.sale|intcomma}}</span>
+                          &nbsp<span class=" bg-danger">{{priceProduct.sale|intcomma}}</span>
                         {% endif %}</h5>
                 <div class="row g-3 align-items-center">
-                  <label for="selectSize" class="col-auto me-4">Size:</label>
+                  <label for="selectSize" class="col-auto me-4">Kích cỡ:</label>
                   <!-- <br> -->
                   {% for size in list_size %}
-                  <div class="flex-wrap col-auto" role="group" aria-label="Basic radio toggle button group" data-bs-target="#size{{size.size}}>
-                    <input type="radio" class="btn-check" name="options" id="option{{size}}" autocomplete="off">
+                  <div class="flex-wrap col-auto" role="group" aria-label="Basic radio toggle button group" >
+                    <input type="radio" class="btn-check prod_size" name="options" id="option{{size}}" onclick="" autocomplete="off">
                     <label class="btn btn-outline-secondary" for="option{{size}}">{{size.size}}</label>
                   </div>
                   {% endfor %}
@@ -64,29 +69,30 @@
                 <!-- <label for="quantityProduct" class="text-muted">Quantity:&nbsp;&nbsp;</label>
                 <input type="number" value="0" size="1" min="0" max="10" id="quantity"/> -->
                 <div class="row g-3 align-items-center">
+                  <input type="hidden" name="" value="{{product.slug}}" class="prod_slug">
                     <div class="col-auto">
-                        <label for="quantityProduct" class="col-form-label">Quantity:</label>
+                        <label for="quantityProduct" class="col-form-label">Số lượng:</label>
                     </div>
                     <div class="col-auto">
                       <div class="btn-group" role="group" aria-label="Basic outlined example">
-                        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-subtract"></i></button>
-                        <input name="quantityItem" min="0" max="20" size="1" value="0" class="text-center"/>
-                        <button type="button" class="btn btn-outline-secondary"><i class="fas fa-plus"></i></button>
+                        <button type="button" class="btn btn-outline-secondary decrement-btn"><i class="fas fa-subtract"></i></button>
+                        <input name="quantityItem" min="1" max="20" size="1" value="1" class="text-center qty-item"/>
+                        <button type="button" class="btn btn-outline-secondary increment-btn"><i class="fas fa-plus"></i></button>
                       </div>
                     </div>
-                    {% for size in list_size %}
-                    <div class="col-auto hidden" id="size{{size.size}}">
+                    <!-- {% for size in list_size %}
+                    <div class="col-auto qty-size d-none" id="">
                         <span id="quantityAvail" class="form-text">
                             {{size.quantity}} pieces available
                         </span>
                     </div>
-                    {% endfor %}
+                    {% endfor %} -->
                 </div>
                 <br>
                 <br>
                 <div class="d-grid my-4">
-                    <button class="btn btn-lg btn-secondary" type="button" id="cartBtn">
-                      <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart</button>
+                    <button class="btn btn-lg btn-secondary" type="button" id="addToCartBtn">
+                      <i class="fa-solid fa-cart-shopping me-2"></i>Thêm vào giỏ hàng</button>
                 </div>
             </div>
             
@@ -94,9 +100,9 @@
                 <div class="card-body">
                     <!-- <h5 class="card-title">Shop</h5> -->
                     <div class="infoShop">
-                        <a href="" class="me-3"><img src="{% static 'image/banner1.jpg' %}" class="UserImg img-fluid" alt="..."></a>
+                        <a href="" class="me-3"><img src="/media/{{storeInfo.logo}}" class="UserImg img-fluid" alt="{{storeInfo.name}}"></a>
                         <div class="flex-column justify-content-between">
-                          <span class="nameShop">{{product.store_id__name}}</span>
+                          <span class="nameShop">{{storeInfo.name}}</span>
                         </div>
                     </div>
                 </div>
@@ -104,37 +110,35 @@
               
             <div class="card form-control">
                 <div class="card-body">
-                    <h5 class="card-title">Description</h5>
-                    <p class="card-text">{{pro.description}}</p>
+                    <h5 class="card-title">Mô tả</h5>
+                    <p class="card-text">{{product.description}}</p>
                 </div>
             </div>
 
             <div class="card form-control">
                 <div class="card-body">
-                    <h5 class="card-title">Product Rates</h5>
+                    <h5 class="card-title">Đánh giá</h5>
+                    {% if evaluate.count == 0 %}
+                    <p>Chưa có đánh giá</p>
+                    {% else %}
+                    {% for eval in evaluate %}
                     <div class="mt-3 userRate">
-                      <a href=""><img src="{% static 'image/banner1.jpg' %}" class="UserImg me-3" alt="..."></a>
+                      <a href=""><img src="/media/{{eval.user_id__avatar}}" class="UserImg me-3" alt="{{eval.user_id__name}}"></a>
                       <div class="flex-column justify-content-between">
-                          <span class="userName">UserName</span>
-                          <p class="timeRate ">2022-09-09</p>
-                          <p class="userCmt">With supporting text below as a natural lead-in to additional content.</p>
+                          <span class="userName">{{eval.user_id__avatar}}</span>
+                          <p class="timeRate ">{{eval.datetime_create}}</p>
+                          <p class="userCmt">{{eval.description}}</p>
                       </div>
                     </div>
-                    <div class="mt-3 userRate">
-                      <a href=""><img src="{% static 'image/banner1.jpg' %}" class="UserImg me-3" alt="..."></a>
-                      <div class="flex-column justify-content-between">
-                          <span class="userName">UserName</span>
-                          <p class="timeRate ">2022-09-09</p>
-                          <p class="userCmt">With supporting text below as a natural lead-in to additional content.</p>
-                      </div>
-                    </div>
+                    {% endfor %}
+                    {% endif %}
                 </div>
             </div>
             
             <div id="carouselProduct" class="carousel slide" data-bs-ride="false">
                 <div class="row my-5">
                     <div class="col-6 d-flex align-items-center">
-                        <h4 class="m-0 ms-2">You may also like</h4>
+                        <h4 class="m-0 ms-2">Có thể bạn sẽ thích</h4>
                       </div>
                     <div class="col-6 pagination-product">
                         <button class="btn-pagination-product me-2" type="button" data-bs-target="#carouselProduct" data-bs-slide="prev">
@@ -146,13 +150,14 @@
                     </div>
                 </div>
                 <div class="carousel-inner">
-                  <div class="carousel-item active">
+                  {% for i in products %}
+                  <div class="carousel-item {% if forloop.first %} active {% endif %}">
                     <div class="row">
                       {% for pro in products %}
                       {% load humanize %} 
                       <div class="col-md-3 col-5 mb-2 ">
                         <div class="content-col justify-content-between">
-                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="{% static 'image/sp1.png' %}"></a>
+                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="/media/{{pro.photo_products__data}}"></a>
                           {% if pro.prices__sale > 0.0 %}
                           <div class="ribbon sale">SALE&nbsp{{pro.prices__sale}}%</div>
                           <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
@@ -162,18 +167,18 @@
                             <p class="price">
                               {{pro.prices__price|intcomma}}VND
                             </p>
-                            <a href="" class="text-decoration-none"><p class="name-product">{{pro.name}}</p></a>
+                            <a href="" class="text-decoration-none"><p class="name-product">{{pro.name|truncatechars:30}}</p></a>
                             {% if pro.sex == 0 %}
-                            <p class="sex-product">Men & Women</p>
+                            <p class="sex-product">Cả nam và nữ</p>
                             {% endif %}
                             {% if pro.sex == 1 %}
-                            <p class="sex-product" id="sex-product-detail">Men</p>
+                            <p class="sex-product" id="sex-product-detail">Nam</p>
                             {% endif %}
                             {% if pro.sex == 2 %}
-                            <p class="sex-product">Women</p>
+                            <p class="sex-product">Nữ</p>
                             {% endif %}
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal{{pro.slug}}">
-                              <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart</button>
+                              <i class="fa-solid fa-cart-shopping me-2"></i>Thêm vào giỏ hàng</button>
                           </div>
                         </div>
                       </div>
@@ -181,6 +186,7 @@
                       
                     </div>
                   </div>
+                  {% endfor %}
                 </div>
             </div>
               {% comment %} {% endfor %} {% endcomment %}
@@ -188,4 +194,7 @@
     </div>
   </main>
 {% endblock %}
-
+{% block javastript %}
+{% load static %}
+<script src="/static/js/productdetail.js"></script>
+{% endblock %}
