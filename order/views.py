@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .models import Order, Detail_order
+from .models import Order, Detail_order,Transport
 from product.models import Product,Categories
 from login.models import Customer, User
 from django.contrib.auth.hashers import check_password
@@ -72,10 +72,16 @@ def shoppingCartPage(request):
     getProductOfUser(request, data)
     dir_product_cart = handleDuplicateProducts(data)
     total_price, products = processingSynthesisProduct(dir_product_cart)
+    list_trainsport = Transport.objects.all()
     if (request.user.is_anonymous is False):
-        return render(request, 'shoppingcart.html', {'product': products, 'total_price': total_price,'current' : request.user ,'list_category':list_category})
+        return render(request, 'shoppingcart.html', {
+                                                     'product': products, 'total_price': total_price,
+                                                     'current' : request.user ,'list_category':list_category,
+                                                     'list_trainsport':list_trainsport,
+                                                     })
     else :
-        return render(request, 'shoppingcart.html', {'product': products, 'total_price': total_price,'list_category': list_category})
+        return render(request, 'shoppingcart.html', {'product': products, 'total_price': total_price,
+                                                     'list_category': list_category, 'list_trainsport':list_trainsport,})
 
 def add_to_cart(request):
 
