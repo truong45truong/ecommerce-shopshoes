@@ -76,7 +76,7 @@
                       {% load humanize %} 
                       <div class="col-md-3 col-5 mb-2 ">
                         <div class="content-col justify-content-between">
-                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="/media/{{pro.photo_products__data}}"></a>
+                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="/media/photos/products/{{pro.photo_products__data}}"></a>
                           {% if pro.prices__sale > 0.0 %}
                           <div class="ribbon sale">SALE&nbsp{{pro.prices__sale}}%</div>
                           <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
