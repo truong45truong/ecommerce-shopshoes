@@ -19,7 +19,7 @@
                 <div class="carousel-inner">
                   {% for i in imgProduct %}
                   <div class="carousel-item {% if forloop.first %} active {% endif %}">
-                    <img src="/media/{{i.data}}" class="d-block w-100" alt="{{i.name}}">
+                    <img src="/media/photos/products/{{i.data}}" class="d-block w-100" alt="{{i.name}}">
                   </div>
                   {% endfor %}
                 </div>
@@ -100,7 +100,7 @@
                 <div class="card-body">
                     <!-- <h5 class="card-title">Shop</h5> -->
                     <div class="infoShop">
-                        <a href="" class="me-3"><img src="/media/{{storeInfo.logo}}" class="UserImg img-fluid" alt="{{storeInfo.name}}"></a>
+                        <a href="" class="me-3"><img src="/media/photos/stores/{{storeInfo.logo}}" class="UserImg img-fluid" alt="{{storeInfo.name}}"></a>
                         <div class="flex-column justify-content-between">
                           <span class="nameShop">{{storeInfo.name}}</span>
                         </div>
@@ -123,7 +123,7 @@
                     {% else %}
                     {% for eval in evaluate %}
                     <div class="mt-3 userRate">
-                      <a href=""><img src="/media/{{eval.user_id__avatar}}" class="UserImg me-3" alt="{{eval.user_id__name}}"></a>
+                      <a href=""><img src="/media/photos/stores/{{eval.user_id__avatar}}" class="UserImg me-3" alt="{{eval.user_id__name}}"></a>
                       <div class="flex-column justify-content-between">
                           <span class="userName">{{eval.user_id__avatar}}</span>
                           <p class="timeRate ">{{eval.datetime_create}}</p>
@@ -157,7 +157,7 @@
                       {% load humanize %} 
                       <div class="col-md-3 col-5 mb-2 ">
                         <div class="content-col justify-content-between">
-                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="/media/{{pro.photo_products__data}}"></a>
+                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="/media/photos/products/{{pro.photo_products__data}}"></a>
                           {% if pro.prices__sale > 0.0 %}
                           <div class="ribbon sale">SALE&nbsp{{pro.prices__sale}}%</div>
                           <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
