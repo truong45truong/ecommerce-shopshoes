@@ -16,14 +16,24 @@ path_root = "D:\TranTran\Ki 7\PBL-main\PBL\manageshopshoes\media\photos"
 
 def homePage(request):
     list_category = Categories.objects.all()
-    # return render (request,'home.html', 
-    #                {'list_category':list_category,
-    #                 })
+    list_product = Product.objects.filter(
+        prices__isnull=False, photo_products__isnull=False).values(
+    # prices__isnull=False).values(
+    'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'photo_products__data', 'prices__price_total', 'category_id__logo').order_by('id')
+    filtered_qs = ProductFilter(request.GET, queryset=list_product).qs
+    
+    paginator = Paginator(filtered_qs, 4)
+    page_number = request.GET.get('page') if request.GET.get('page') != None else '1'
+    page_obj = paginator.get_page(page_number)
+    nums = "a" * page_obj.paginator.num_pages
+    
     if (request.user.is_anonymous is False):
-        return render(request,'home.html',{ 'current' :request.user,
+        return render(request,'home.html',
+                      { 'current' :request.user,'page': int(page_number), 'products': page_obj,
                                            'list_category':list_category})
     else :
-        return render(request,'home.html',{ 'current' : False,
+        return render(request,'home.html',
+                      { 'current' : False,'page': int(page_number), 'products': page_obj,
                                            'list_category':list_category})
     
 # Create your views here.

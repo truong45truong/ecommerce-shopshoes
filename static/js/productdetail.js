@@ -22,7 +22,7 @@ $(document).ready(function () {
         }
     })
     
-    $(`.addToCartBtn`).click(function (e) {
+    $(`#addToCartBtn`).click(function (e) {
         e.preventDefault()
 
         var product_slug = $(this).closest(`.product_data`).find(`.prod_slug`).val()
@@ -48,6 +48,6 @@ $(document).ready(function () {
 
     $(".prod_size").click(function() { 
         // assumes element with id='button'
-        $(".quantityAvail").toggle();
+        $(".quantityAvail").show();
     });
 })

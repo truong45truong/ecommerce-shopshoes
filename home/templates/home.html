@@ -70,6 +70,7 @@
             </div>
             <div class="carousel-inner">
                   {% for i in products %}
+                  {{forloop.count}}
                   <div class="carousel-item {% if forloop.first %} active {% endif %}">
                     <div class="row">
                       {% for pro in products %}

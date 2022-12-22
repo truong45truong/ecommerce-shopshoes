@@ -32,4 +32,10 @@ $(document).ready(()=>{
         })
     });
 
+    $(`.addCartBtn`).click(function (e) {
+        e.preventDefault()
+        
+        $(".modalQuickShop").show();
+    })
+
 })

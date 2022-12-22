@@ -149,7 +149,7 @@
                         </p>
                       </div>
                     </a>
-                    <button type="button" class="btn btn-secondary w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#modal{{pro.slug}}">
+                    <button type="button" class="btn btn-secondary w-100 rounded-0 addCartBtn" data-bs-toggle="modal" data-bs-target="#modal">
                       <i class="fa-solid fa-cart-shopping me-2"></i>Thêm vào giỏ hàng</button>
                   </div>
                 </div>
@@ -192,6 +192,7 @@
     </div>
   </main>
 
+{% for pro in product %}
 {% load humanize %}
   <div class="modal fade modalQuickShop" id="modal{{pro.slug}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-centered">
@@ -255,6 +256,11 @@
                 <i class="fa-solid fa-cart-shopping me-2"></i>Add to cart</button>
             </div>
           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
 
    {% include 'footer.html' %}
 {% endblock %}
