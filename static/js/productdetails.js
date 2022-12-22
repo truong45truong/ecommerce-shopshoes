@@ -22,7 +22,11 @@ $(document).ready(function () {
         }
     })
     
+<<<<<<< HEAD:static/js/productdetails.js
     $('#addToCartBtn').click(function (e) {
+=======
+    $(`#addToCartBtn`).click(function (e) {
+>>>>>>> origin/subbranch3:static/js/productdetail.js
         e.preventDefault()
         console.log("runnning add to cart")
         var product_slug = $(this).closest(`.product_data`).find(`.prod_slug`).val()
@@ -49,6 +53,6 @@ $(document).ready(function () {
 
     $(".prod_size").click(function() { 
         // assumes element with id='button'
-        $(".quantityAvail").toggle();
+        $(".quantityAvail").show();
     });
 })
