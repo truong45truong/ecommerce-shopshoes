@@ -126,7 +126,7 @@
                 <div class="col-md-3 col-5 mb-5 ">
                   <div class="content-col justify-content-between product-item">
                     <a href="{% url 'productdetail' slug=pro.slug %}" class="text-decoration-none">
-                      <img class="border-2" src="/media/{{pro.photo_products__data}}">
+                      <img class="border-2" src="/media/photos/products/{{pro.photo_products__data}}">
                       {% if pro.prices__sale > 0.0 %}
                       <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
                       <div class="ribbon sale">SALE {{pro.prices__sale}}%</div>
