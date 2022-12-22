@@ -75,7 +75,7 @@ def productPage(request, slug):
     else :
         return render(request,'Product.html',{ 'products': page_obj, 'pages': range(1, page_obj.paginator.num_pages),
                                               'current' : False ,'store': True, 'nums':nums,
-                                              'list_category':list_category, 'prod':prod, 'sortby': sortby,
+                                              'list_category':list_category, 'sortby': sortby,
                                               'minprice':minprice, 'maxprice':maxprice, 'filterPrice':filterPrice,
                                               })
 
