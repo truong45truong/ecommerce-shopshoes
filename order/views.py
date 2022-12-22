@@ -101,10 +101,9 @@ def add_to_cart(request):
             customer_id=customer
         )
         order.save()
-        for size in data['sizes']:
-            detail_order = Detail_order(
-                status=False, quantity=size['quantity'], product_id=product, order_id=order)
-            detail_order.save()
+        detail_order = Detail_order(
+            status=False, quantity=1, product_id=product, order_id=order)
+        detail_order.save()
 
         order.save()
 
