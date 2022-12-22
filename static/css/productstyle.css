@@ -31,7 +31,7 @@
     background-color: white;
     font-family: 'Courier New', Courier, monospace;
     text-decoration: line-through; */
-    bottom: 180px;
+    bottom: 14em;
     left: 0px;
     z-index: 999;
     display: inline-block;
@@ -44,10 +44,6 @@
     /* font-family: 'Courier New', Courier, monospace; */
   }
   .search-filter {
-    border-top: 3px solid #000;
-    padding-top: 15px;
-  }
-  .product-item {
     border-top: 3px solid #000;
     padding-top: 15px;
   }
@@ -243,9 +239,6 @@
     }
     .sortItems li a{
       padding: 8px;
-    }
-    .product-item {
-      border-top: none;
     }
     .filterRes {
       display: block;
