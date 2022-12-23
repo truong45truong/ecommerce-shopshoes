@@ -31,7 +31,7 @@ class Size(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True,blank=True,related_name='sizes')
 
     def __str__(self):
-        return self.product_id.name +"-"+ str(self.size)
+        return str(self.size)
 
 class Evaluate(models.Model):
     id = models.BigAutoField(primary_key=True)

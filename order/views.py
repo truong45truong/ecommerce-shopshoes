@@ -22,48 +22,64 @@ def shoppingCartPage(request):
             user = User.objects.get(username=current_user)
             customer = Customer.objects.filter(users__username=user)
             product_cart_user = Order.objects.filter(customer_id=customer[0], detail_orders__isnull=False).values(
-                'detail_orders__product_id__slug', 'detail_orders__quantity'
+                'detail_orders__product_id__slug', 'detail_orders__quantity' , 'detail_orders__size'
             )
+            
             for item in product_cart_user:
                 data.append({
                     'slug': item['detail_orders__product_id__slug'],
-                    'quantity': item['detail_orders__quantity']
+                    'quantity': item['detail_orders__quantity'],
+                    'size' : item['detail_orders__size'],
                 })
 
     def handleDuplicateProducts(data):
+        print(data)
+        def checkInside(size,dirSize):
+            for index in  range(len(dirSize)):
+                    if size == dirSize[index]['size'] :
+                        return True
+            return False
         dir = dict()
         for item in data:
-            if item['slug'] in dir:
-                dir[item['slug']] = int(
-                    dir[item['slug']]) + int(item['quantity'])
+            if item['slug'] in dir :
+                for index in  range(len(dir[item['slug']][:])):
+                    if item['size'] == dir[item['slug']][index]['size'] :
+                        dir[item['slug']][index]['quantity'] = int(dir[item['slug']][index]['quantity']) + int(item['quantity'])
+                        break
+                    else :
+                        if checkInside(item['size'],dir[item['slug']][:]) == False :
+                            dir[item['slug']].append({'quantity' : item['quantity'] ,'size' : item['size']})
             else:
-                dir[item['slug']] = item['quantity']
+                dir[item['slug']] = [{'quantity' : item['quantity'] ,'size' : item['size']}]
         return dir
 
     def processingSynthesisProduct(data):
         list_product = []
         total_price = 0
         for i in data.keys():
-            item = Product.objects.filter(
-                prices__isnull=False, photo_products__isnull=False, slug=i).values(
-                'name', 'slug', 'sex', 'prices__price', 'prices__sale',
-                'photo_products__name', 'prices__price_total', 'category_id__logo'
-            )
-            list_product.append(
-                {
-                    'name': item[0]['name'],
-                    'slug': item[0]['slug'],
-                    'sex': item[0]['sex'],
-                    'sale': item[0]['prices__sale'],
-                    'photo': item[0]['photo_products__name'],
-                    'price_total': item[0]['prices__price_total'],
-                    'category': item[0]['category_id__logo'],
-                    'quantity': dir_product_cart[i]
-                }
-            )
-            total_price = total_price + \
-                int(data[i])*float(item[0]['prices__price_total'])
-        return total_price, list_product
+            for index in range(len(data[i])):
+                item = Product.objects.filter(
+                    prices__isnull=False, photo_products__isnull=False, slug=i,sizes__isnull=False,sizes__size=data[i][index]['size']).values(
+                    'name', 'slug', 'sex', 'prices__price', 'prices__sale',
+                    'photo_products__name', 'prices__price_total', 'category_id__logo' , 'sizes__size' , 'sizes__quantity'
+                )
+                list_product.append(
+                    {
+                        'name': item[0]['name'],
+                        'slug': item[0]['slug'],
+                        'sex': item[0]['sex'],
+                        'sale': item[0]['prices__sale'],
+                        'photo': item[0]['photo_products__name'],
+                        'price_total': item[0]['prices__price_total'],
+                        'category': item[0]['category_id__logo'],
+                        'size': item[0]['sizes__size'],
+                        'quantity' : data[i][index]['quantity'],
+                        'quantityMax' : item[0]['sizes__quantity'],
+                    }
+                )
+            # total_price = total_price + \
+            #     int(data[i])*float(item[0]['prices__price_total'])
+        return 0, list_product
 
     try:
         data = request.session['cart']
@@ -73,7 +89,7 @@ def shoppingCartPage(request):
     dir_product_cart = handleDuplicateProducts(data)
     total_price, products = processingSynthesisProduct(dir_product_cart)
     list_trainsport = Transport.objects.all()
-    if (request.user.is_anonymous is False):
+    if (request.user.is_authenticated is True):
         return render(request, 'shoppingcart.html', {
                                                      'product': products, 'total_price': total_price,
                                                      'current' : request.user ,'list_category':list_category,
@@ -81,7 +97,7 @@ def shoppingCartPage(request):
                                                      })
     else :
         return render(request, 'shoppingcart.html', {'product': products, 'total_price': total_price,
-                                                     'list_category': list_category, 'list_trainsport':list_trainsport,})
+                                                     'list_category': list_category, 'list_trainsport':list_trainsport,'current':False})
 
 def add_to_cart(request):
 
@@ -91,8 +107,9 @@ def add_to_cart(request):
     def add_with_account(request):
         user = User.objects.get(username=request.user)
         customer = user.customer_id
+        print(slugify(""+customer.name+"-"+data['slug']+id_generator()))
         order = Order(
-            name=slugify(""+customer.name+data['slug']+id_generator()),
+            name=slugify(""+customer.name+"-"+data['slug']+id_generator()),
             datetime=datetime.datetime.now(),
             receiver=customer.name,
             address_receiver=customer.address,
@@ -102,7 +119,7 @@ def add_to_cart(request):
         )
         order.save()
         detail_order = Detail_order(
-            status=False, quantity=1, product_id=product, order_id=order)
+            status=False, quantity=data['quantity'], product_id=product, order_id=order,size = data['sizes'])
         detail_order.save()
 
         order.save()
@@ -112,18 +129,18 @@ def add_to_cart(request):
             data_cart = request.session['cart']
         except:
             data_cart = []
-        for size in data['sizes']:
-            item_cart = {
-                'slug' : data['slug'],
-                'size' : size['size'],
-                'quantity' : size['quantity'] 
-            }
-            data_cart.append(item_cart)
+        item_cart = {
+            'slug' : data['slug'],
+            'size' : int(data['sizes']),
+            'quantity' : data['quantity'] 
+        }
+        data_cart.append(item_cart)
         request.session['cart'] = data_cart
         print(data_cart)
     
     data = json.loads(request.body.decode('utf-8'))
     product = Product.objects.get(slug=data['slug'])
+    print(data)
     if request.user.is_authenticated:
         add_with_account(request)
     else:

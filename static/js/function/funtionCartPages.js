@@ -19,21 +19,21 @@ const uploadSessionSelectProductPay = (slug,index) => {
 }
 
 const updateQuantityDown = (classInput,slug) => {
+    var index = parseInt($('.'+classInput).attr('value'))+1
+    $('.'+classInput).attr('value',index)
     if(document.getElementById('checked-'+slug).checked==true){
-        var index = parseInt($('.'+classInput).attr('value'))+1
-        $('.'+classInput).attr('value',index)
 
         uploadSessionSelectProductPay(slug,index)
         uploadTotalSelectProduct()
     }
 }
 const updateQuantityUp = (classInput,slug) => {
-    if(document.getElementById('checked-'+slug).checked==true){
-        var index = parseInt($('.'+classInput).attr('value'))-1
+    var index = parseInt($('.'+classInput).attr('value'))-1
         if( index > 0){
             $('.'+classInput).attr('value',index)
             uploadSessionSelectProductPay(slug,index)
-            uploadTotalSelectProduct()
         }
+    if(document.getElementById('checked-'+slug).checked==true){
+            uploadTotalSelectProduct()
     }
 }

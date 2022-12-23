@@ -8,12 +8,10 @@ from django.shortcuts import render,redirect
 from login.models import User,Customer,Store,Feedback
 from login.views import upload,handleImageUpload
 from login.forms import ImageStoreForm
-
+from django.conf import settings
 # path save photo
-
-path_upload = "D:\TranTran\Ki 7\PBL-main\PBL\manageshopshoes\media_upload\photos"
-path_root = "D:\TranTran\Ki 7\PBL-main\PBL\manageshopshoes\media\photos"
-
+path_upload = str(settings.BASE_DIR)+"/media_upload/photos"
+path_root = str(settings.BASE_DIR)+"/media/photos"
 def homePage(request):
     list_category = Categories.objects.all()
     list_product = Product.objects.filter(
