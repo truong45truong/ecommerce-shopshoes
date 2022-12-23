@@ -69,7 +69,7 @@ def registerPage(request):
         birthday = request.POST.get('birthday')
         
         if (password != confirm_password):
-            messages.success(request, 'The passwords do not match. Please enter the password again.')
+            messages.success(request, 'Mật khẩu không khớp. Hãy nhập lại!')
             return render(request, 'register.html')
         try:
             user = User.objects.get(username=username)
@@ -87,11 +87,11 @@ def registerPage(request):
             user.password = make_password(password)
             user.save()
 
-            messages.success(request, 'Register success!')
+            messages.success(request, 'Tạo tài khoản thành công!')
             return redirect('login')
 
         if user is not None:
-            messages.success(request, 'Account already exists!')
+            messages.success(request, 'Tài khoản đã tồn tại!')
     return render(request, 'register.html',{'formImage':formImage})
 
 @login_required
