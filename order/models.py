@@ -11,7 +11,7 @@ class Transport(models.Model):
 
 class Order(models.Model):
     id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=200)
     datetime = models.DateTimeField()
     receiver = models.CharField(max_length=50,null=True)
     address_receiver = models.CharField(max_length=200,null=True)
@@ -27,4 +27,5 @@ class Detail_order(models.Model):
     quantity = models.IntegerField()
     order_id = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,related_name='detail_orders')
     product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    size = models.IntegerField()
 

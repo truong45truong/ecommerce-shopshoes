@@ -22,24 +22,29 @@ $(document).ready(function () {
         }
     })
     
-    $(`#addToCartBtn`).click(function (e) {
+    $('#addToCartBtn').click(function (e) {
         e.preventDefault()
-
+        console.log("runnning add to cart")
         var product_slug = $(this).closest(`.product_data`).find(`.prod_slug`).val()
-        var product_size = $(this).closest(`.product_data`).find(`.prod_size`).val()
+        var product_size = false
         var product_qty = $(this).closest(`.product_data`).find(`.qty-item`).val()
-        var token = $(`input[name-csrfmiddlewaretoken]`).val()
+        var headers = {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() };
 
+        for (i of document.getElementsByClassName("prod_size")){
+            if(i.checked == true){
+                product_size = i.value
+            }
+        }
         $.ajax({
             method: "POST",
             url: "/order/addtocart",
-            data: {
-                'product_slug': product_slug,
-                'product_size': product_size,
-                'product_qty': product_qty,
-                csrfmiddlewaretoken: token
-            },
-            dataType: "dataType",
+            contentType: "json",
+            headers: headers,
+            data:JSON.stringify({
+                slug : product_slug,
+                sizes: product_size,
+                quantity : product_qty,
+            }),
             success: function (response) {
 
             }

@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from product.models import Product, Price, Size,Photo_product
+from product.models import Product, Price, Size,Photo_product,Categories
 
 class SizesSerializer(ModelSerializer):
     class Meta:
@@ -34,3 +34,7 @@ class ProductSerializer(ModelSerializer):
         for size in sizes:
             Size.objects.create(product_id=product,**size)
         return product
+class CategorySerializer(ModelSerializer):
+    class Meta:
+        model = Categories
+        fields = '__all__'

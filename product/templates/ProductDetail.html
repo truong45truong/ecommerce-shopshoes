@@ -50,16 +50,16 @@
                           {{priceProduct.price|intcomma}}VND
                         {% else %}
                           <span class="small"><del>{{priceProduct.price|intcomma}}VND</del></span>
-                          &nbsp {{priceProduct.price_total|intcomma}}VND
-                          &nbsp<span class=" bg-danger">{{priceProduct.sale|intcomma}}</span>
+                          & {{priceProduct.price_total|intcomma}}VND
+                          &<span class=" bg-danger">{{priceProduct.sale|intcomma}}</span>
                         {% endif %}</h5>
                 <div class="row g-3 align-items-center">
                   <label for="selectSize" class="col-auto me-4">Kích cỡ:</label>
                   <!-- <br> -->
                   {% for size in list_size %}
                   <div class="flex-wrap col-auto" role="group" aria-label="Basic radio toggle button group" >
-                    <input type="radio" class="btn-check" name="options" id="option{{size}}" onclick="" autocomplete="off">
-                    <label class="btn btn-outline-secondary prod_size" for="option{{size}}">{{size.size}}</label>
+                    <input type="radio" class="btn-check prod_size" name="options" id="option{{size}}" value="{{size.size}}" onclick="" autocomplete="off">
+                    <label class="btn btn-outline-secondary" for="option{{size}}" value="{{size.size}}">{{size.size}}</label>
                   </div>
                   {% endfor %}
                     

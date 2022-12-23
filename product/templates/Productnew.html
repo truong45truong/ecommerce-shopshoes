@@ -3,7 +3,7 @@
 {% block content %}
 <main>
     <div class="container">
-        <div class="row">
+        <div class="row my-5">
             <form action="{% url 'productnew' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="d-flex">
