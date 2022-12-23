@@ -12,7 +12,31 @@
     list-style-type: none;
     text-decoration: none;
 }
-
+.sale-value-product{
+  top:11.5%;
+  left:12%;
+  font-size: 12px;
+  color: #F8463F;
+}
+.price-value-product{
+  /* top:47.4%;
+  font-size: 14px;
+  left: 2%;
+  background-color: white;
+  font-family: 'Courier New', Courier, monospace;
+  text-decoration: line-through; */
+  bottom: 14em;
+  left: 0px;
+  z-index: 999;
+  display: inline-block;
+  font-size: .7rem;
+  padding: 3px 10px;
+  color: rgb(143, 143, 143);
+  text-align: center;
+  background-color: #fff;
+  text-decoration: line-through;
+  /* font-family: 'Courier New', Courier, monospace; */
+}
 #carouselProduct.carousel-inner {
     overflow: visible;
   }
