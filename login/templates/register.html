@@ -13,80 +13,71 @@
 </head>
 <body>
 
-  <section class="gradient-custom">
+  <section class="bg-light">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
-
-            <div class="mt-md-4 pb-2">
-            
-              <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
-              <form action="{% url 'register'%}" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
-                  <input type="text" id="login__username" class="form-control" placeholder="Username" name="username" required>
-                </div>
-
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
-                  <input type="password" id="login__password" class="form-control" placeholder="Password" name="password" required>
-                </div>
-
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-lock"></span></div>
-                  <input type="password" id="login__password" class="form-control" placeholder="Confirm password" name="confirmpassword" required>
-                </div>
-
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-user"></span></div>
-                  <input type="text" id="login__username" class="form-control" placeholder="Name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></div>
-                  <input type="text" id="login__email" class="form-control" placeholder="Email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-phone"></span></div>
-                  <input type="text" id="login__phone" class="form-control" placeholder="Phone" name="phone" required>
-                </div>
-                
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-location-dot"></span></div>
-                  <input type="text" id="login__address" class="form-control" placeholder="Address" name="address" required>
-                </div>
-
-                <div class="form-group">
-                  <div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-calendar-days"></span></div>
-                  <input type="date" id="login__birthday" class="form-control" placeholder="Birthday" name="birthday" required>
-                </div>
-
-
-
-                {% for message in messages %}
-                  <p id ='messages' style="color:red;" >{{message}}</p>
-                {%endfor%}
-
-              <div class="form-group">
-                <button type="submit" class="btn form-control btn-primary rounded submit px-3">Sign Up</button>
-              </div>
-              </form> 
-
-              <div class="d-flex justify-content-center text-center mt-4 pt-1">
-                <a href="#!" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
-                <a href="#!" class="text-white"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
-                <a href="#!" class="text-white"><i class="fab fa-google fa-lg"></i></a>
-              </div>
-
-            </div>
-
-            <div>
-              <p class="mb-0">Have an account? <a href="{% url 'login'%}" class="text-white-50 fw-bold">Sign In</a>
-              </p>
+            <div class="register">
+                    <span class="fas fa-user-circle" aria-hidden="true"></span>
+                    <strong>Tạo tài khoản mới!</strong>
+                    <form action="{% url 'register'%}" method="post" class="register-form">
+                        {% csrf_token %}
+                        <fieldset>
+                            <div class="form mt-4">
+                                {% for message in messages %}
+                                  <p id ='messages' style="color:red;" >{{message}}</p>
+                                {%endfor%}
+                                <div class="form-row">
+                                    <span class="fas fa-user" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">Tên đăng nhập</label>
+                                    <input type="text" class="form-text" name="username" required="">
+                                </div>
+                                <div class="form-row">
+                                    <span class="fas fa-lock" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">Mật khẩu</label>
+                                    <input type="password" class="form-text" name="password" required="">
+                                </div>
+                                <div class="form-row">
+                                    <span class="fas fa-lock" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">Nhập lại mật khẩu</label>
+                                    <input type="password" class="form-text" name="confirmpassword" required="">
+                                </div>
+                                <div class="form-row">
+                                    <span class="fas fa-user" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">Tên</label>
+                                    <input type="text" class="form-text" name="name" required="">
+                                </div>
+                                <div class="form-row">
+                                    <span class="fas fa-envelope" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">E-mail</label>
+                                    <input type="email" class="form-text" name="email" required="">
+                                </div>
+                                <div class="form-row">
+                                    <span class="fas fa-phone" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">Số điện thoại</label>
+                                    <input type="text" class="form-text" name="phone" required="">
+                                </div>
+                                <div class="form-row">
+                                    <span class="fas fa-location-dot" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">Địa chỉ</label>
+                                    <input type="text" class="form-text" name="address" required="">
+                                </div>
+                                <div class="form-row">
+                                    <span class="fas fa-calendar-days" aria-hidden="true"></span>
+                                    <label class="form-label" for="input">Ngày sinh</label>
+                                    <input type="date" class="form-text" name="birthday" required="">
+                                </div>
+                                <div class="form-row button-login">
+                                    <button class="btn btn-login">Tạo <span class="fas fa-arrow-right" aria-hidden="true"></span></button>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                </form>
+              <span class="create-account mt-3">Đã có tài khoản? &nbsp<a href="{% url 'login'%}" class="signin">Đăng nhập</a>
+              </span>
             </div>
 
           </div>
