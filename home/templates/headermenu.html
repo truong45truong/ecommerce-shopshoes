@@ -12,19 +12,19 @@
               {% if current != False %}
               <p class="content-icon-header mx-2">{{current}}</p>
               {% else %}
-              <p class="content-icon-header"> <a class="link-danger text-decoration-none mx-2" href="{% url 'login' %}">login</a> </p>
+              <p class="content-icon-header"> <a class="link-danger text-decoration-none mx-2" href="{% url 'login' %}">Đăng nhập</a> </p>
               {% endif %}
               <i class="fa-solid fa-caret-down"></i>
             </div>
             <div>
               <i class="fa-sharp fa-solid fa-gear fa-spin"></i>
-              <p class="content-icon-header">setting</p>
+              <p class="content-icon-header">Cài đặt</p>
               <i class="fa-solid fa-caret-down"></i>
             </div>
           </div>
           <div class="d-flex">
             <form id="search" class="me-4">
-              <input class="m-1" type="text" placeholder="   search">
+              <input class="m-1" type="text" placeholder="Nhập từ khóa">
               <i class="fa fa-search ms-2"></i>
             </form>
             <div class="d-flex align-content-center">
@@ -37,9 +37,9 @@
         {% if current != False %}
         <ul class="account-bar">
           <div class="container">
-            <li><a class="text-white text-decoration-none" href="{% url 'myaccount' %}">Customers</a></li>
-            <li><a class="text-white text-decoration-none" href="{% url 'mystore' %}">Manage Store</a></li>
-            <li><a class="text-white text-decoration-none" href="{% url 'logout' %}">Logout</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'myaccount' %}">Khách hàng</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'mystore' %}">Quản lý cửa hàng</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'logout' %}">Đăng xuất</a></li>
           </div>
         </ul>
         {% endif %}
@@ -59,13 +59,13 @@
             <ul class="navbar-nav">
               <li class="bar-exit"><i class="fa-solid fa-x"></i></li>
               <li class="nav-item">
-                <a class="nav-link text-black" href="{% url 'home' %}">Home</a>
+                <a class="nav-link text-black" href="{% url 'home' %}">Trang chủ</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="{% url 'introduce' %}">Introduce</a>
+                <a class="nav-link"  href="{% url 'introduce' %}">Giới thiệu</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link"  href="{% url 'contact' %}">Contact</a>
+                <a class="nav-link"  href="{% url 'contact' %}">Liên hệ</a>
               </li>
               <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">Category</a>
