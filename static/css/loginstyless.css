@@ -1,0 +1,305 @@
+
+/* config.css */
+
+:root {
+  --baseColor: #606468;
+}
+
+/* helpers/align.css */
+
+.align {
+  display: grid;
+  place-items: center;
+}
+
+.grid {
+  inline-size: 90%;
+  margin-inline: auto;
+  max-inline-size: 20rem;
+}
+
+/* helpers/hidden.css */
+
+.hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* helpers/icon.css */
+
+:root {
+  --iconFill: var(--baseColor);
+}
+
+.icons {
+  display: none;
+}
+
+.icon {
+  block-size: 1em;
+  display: inline-block;
+  fill: var(--iconFill);
+  inline-size: 1em;
+  vertical-align: middle;
+}
+
+/* layout/base.css */
+
+:root {
+  --htmlFontSize: 100%;
+
+  --bodyBackgroundColor: #2c3338;
+  --bodyColor: var(--baseColor);
+  --bodyFontFamily: "Open Sans";
+  --bodyFontFamilyFallback: sans-serif;
+  --bodyFontSize: 0.875rem;
+  --bodyFontWeight: 400;
+  --bodyLineHeight: 1.5;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: var(--htmlFontSize);
+}
+
+body {
+  background-color: var(--bodyBackgroundColor);
+  color: var(--bodyColor);
+  font-family: var(--bodyFontFamily), var(--bodyFontFamilyFallback);
+  font-size: var(--bodyFontSize);
+  font-weight: var(--bodyFontWeight);
+  line-height: var(--bodyLineHeight);
+  margin: 0;
+  min-block-size: 100vh;
+}
+
+/* modules/anchor.css */
+
+:root {
+  --anchorColor: #eee;
+}
+
+a {
+  color: var(--anchorColor);
+  outline: 0;
+  text-decoration: none;
+}
+
+a:focus,
+a:hover {
+  text-decoration: underline;
+}
+
+/* modules/form.css */
+
+:root {
+  --formGap: 0.875rem;
+}
+
+input {
+  background-image: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  transition: background-color 0.3s;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+}
+
+.form {
+  display: grid;
+  gap: var(--formGap);
+}
+
+
+
+/* modules/login.css */
+
+:root {
+  --loginBorderRadus: 0.25rem;
+  --loginColor: #eee;
+
+  --loginInputBackgroundColor: #3b4148;
+  --loginInputHoverBackgroundColor: #434a52;
+
+  --loginLabelBackgroundColor: #363b41;
+
+  --loginSubmitBackgroundColor: #ea4c88;
+  --loginSubmitColor: #eee;
+  --loginSubmitHoverBackgroundColor: #d44179;
+}
+
+
+/* modules/text.css */
+
+p {
+  margin-block: 1.5rem;
+}
+
+.text--center {
+  text-align: center;
+}
+
+
+
+
+.register, .login {
+  background: #fff;
+}
+.register, .login {
+  border-radius: 5px;
+  height: auto;
+  max-width: 400px;
+  padding: 40px 15px;
+  text-align: center;
+  width: 100%;
+}
+.register .fas, .login .fas {
+  color: #4d61fc;
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+.register span, .login span {
+  color: #696687;
+  font-size: 18px;
+  opacity: .8;
+}
+.register strong, .login strong {
+  color: #3b3663;
+  display: block;
+  font-size: 28px;
+}
+form, fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.register .form .form-row, .login .form .form-row {
+  position: relative;
+  text-align: left;
+}
+.register .form .form-row .fas, .login .form .form-row .fas {
+  font-size: 16px;
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  color: #696687;
+  opacity: .3;
+}
+.register .form .form-label, .login .form .form-label {
+  color: #696687;
+  font-size: 17px;
+  opacity: .7;
+}
+.register .form-password, .register .form-text, .login .form-password, .login .form-text {
+  color: #696687;
+  font-size: 18px;
+  border: 0;
+  height: 40px;
+  margin-bottom: 15px;
+  padding: 0 40px 0 0px;
+  width: 100%;
+  background: white no-repeat;
+  transition: 100ms all linear 0s;
+  background-image: linear-gradient(to bottom, rgba(77, 97, 252, 0.63) 0%, #4d61fc 90%), linear-gradient(to bottom, #e1e1e1, #e1e1e1);
+  background-size: 0 2px, 100% 1px;
+  background-position: 50% 100%, 50% 100%;
+  transition: background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
+button, input, select {
+  -webkit-appearance: none;
+  outline: none;
+}
+.register .form .form-row.bottom, .login .form .form-row.bottom {
+  display: flex;
+  justify-content: space-between;
+}
+.register .form .form-row .form-check input[type="checkbox"], .login .form .form-row .form-check input[type="checkbox"] {
+  display: none;
+}
+.register .form .form-row.bottom .forgot, .login .form .form-row.bottom .forgot {
+  color: #4d61fc;
+  font-size: 18px;
+  opacity: .7;
+}
+.register .form .form-row.button-login, .login .form .form-row.button-login {
+  margin-top: 30px;
+}
+.btn {
+  align-items: center;
+  background: #4d61fc;
+  border-radius: 6px;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font-size: 16px;
+  padding: 15px 45px;
+  transition: 0.2s;
+  font-weight: 600;
+}
+.register .form .form-row.button-login .fas, .login .form .form-row.button-login .fas {
+  position: static;
+}
+.register .btn-login .fas.fa-arrow-right, .login .btn-login .fas.fa-arrow-right {
+  color: #fff;
+  opacity: 1;
+}
+.btn .fas.fa-arrow-right {
+  color: #fff;
+  font-size: 12px;
+  line-height: 12px;
+  margin: 0 0 0 10px;
+}
+.register .form-password:focus, .register .form-text:focus, .login .form-password:focus, .login .form-text:focus {
+  background-size: 100% 2px, 100% 1px;
+  outline: none;
+}
+.btn:hover {
+  background: #2036de !important;
+  transform: translateY(-2px) !important;
+  color: #fff !important;
+}
+.register .create-account, .login .create-account {
+  border-top: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  padding-top: 20px;
+}
+.register .create-account, .login .create-account {
+  border-top: 1px solid #e2e2e2;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+  padding-top: 20px;
+}
+.register .form .form-row.bottom .forgot:hover, .login .form .form-row.bottom .forgot:hover {
+  opacity: 1;
+}
+.register .create-account  a.signin, .login .create-account a.signup {
+  color: #4d61fc;
+  opacity: .7;
+}
+.register .create-account  a.signin:hover, .login .create-account a.signup:hover {
+  opacity: 1;
+}
+.register .social-media {
+  font-size: 20px;
+  margin-top: 10px;
+}
