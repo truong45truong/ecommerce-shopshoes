@@ -5,6 +5,7 @@ from login.models import Customer
 
 class Transport(models.Model):
     id = models.BigAutoField(primary_key=True)
+    slug = models.CharField(null=False,max_length=50)
     name = models.CharField(max_length=50)
     logo = models.ImageField(null=True)
     price = models.FloatField(null=True)

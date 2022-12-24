@@ -7,7 +7,7 @@
 {% block content %}
 {% load static %}
 <div class="container">
-    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+    <!-- <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
         <input id="id_cmd" name="cmd" type="hidden" value="_xclick"><input id="id_charset" name="charset" type="hidden"
             value="utf-8"><input id="id_currency_code" name="currency_code" type="hidden" value="USD"><input
             id="id_no_shipping" name="no_shipping" type="hidden" value="1"><input id="id_business" name="business"
@@ -19,7 +19,8 @@
             name="cancel_return" type="hidden" value="http://127.0.0.1:8000,/payment/paypal-cancel"><input
             id="id_return" name="return" type="hidden" value="http://127.0.0.1:8000,/payment/paypal-reverse%22">
         <input class="btn-paypal" alt="Buy it Now" name="submit" src="{% static 'image/paypal-buy.png' %}" type="image">
-    </form>
+    </form> -->
+    {{form.render}}
 </div>
 
 {% endblock %}

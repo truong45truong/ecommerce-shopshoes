@@ -46,7 +46,7 @@ $(document).ready(function () {
                 quantity : product_qty,
             }),
             success: function (response) {
-
+                console.log(response)
             }
         })
     })

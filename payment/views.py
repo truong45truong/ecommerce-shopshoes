@@ -7,16 +7,19 @@ from django.conf import settings
 import uuid 
 def paymentPage (request):
     list_category = Categories.objects.all()
+    productPay = request.GET['productPay'].split('_')
+    print(productPay)
+    print(request.GET['transport'])
     host = request.get_host()
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "amount": "20.00",
-        "item_name": "Product 1",
+        "item_name": "Product 2",
         "invoice": str(uuid.uuid4()),
         "curency_code" : "USD",
-        "notify_url":  f'http://{host},{reverse("paypal-ipn")}',
-        "return_url":  f'http://{host},{reverse("paypal-reverse")}',
-        "cancel_return":  f'http://{host},{reverse("paypal-cancel")}',
+        "notify_url":  f'http://{host}{reverse("paypal-ipn")}',
+        "return_url":  f'http://{host}{reverse("paypal-reverse")}',
+        "cancel_return":  f'http://{host}{reverse("paypal-cancel")}',
     }
 
     # Create the instance.
@@ -24,8 +27,9 @@ def paymentPage (request):
     return render(request,'test.html',{'list_category':list_category,'form':form})
 def paypal_return(request):
     messages.success(request,"successfully make a payment")
-    redirect('payment')
+    return redirect('payment')
 def paypal_reverse(request):
-    redirect('payment')
+    print(request.GET)
+    return redirect('payment')
 def paypal_cancel(request):
-    redirect('payment')
+    return redirect('payment')
