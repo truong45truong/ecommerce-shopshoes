@@ -82,11 +82,13 @@
         </div>
         <div class="d-flex my-5">
             <h5 class='me-5'>Thanh toán bằng Khi nhân hàng </h5>
-            <form action="{% url 'payment' %}">
-                <button class="ms-5 btn btn-info"> Mua hàng </button> 
-            </form>
+            <button type="button"  id="PayOnReceiptBtn" value={{slug}} class="ms-5 btn btn-info"> Mua hàng </button>
         </div>
     </div>
 </div>
 
+{% endblock %}
+{% block javastript %}
+{% load static %}
+<script src="/static/js/payments.js"></script>
 {% endblock %}

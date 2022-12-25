@@ -5,10 +5,13 @@ from .models import User,Customer,Store
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.template.defaultfilters import slugify
 from django.contrib.auth.backends import ModelBackend
 from product.models import Categories
 import shutil
 import os
+import random
+import string
 from django.conf import settings
 
 path_upload = str(settings.BASE_DIR)+"/media_upload/photos"
@@ -57,6 +60,8 @@ def loginPage(request):
 
 
 def registerPage(request):
+    def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))
     formImage = ImageStoreForm()
     if request.method == 'POST':
         formImage = ImageStoreForm(request.POST,request.FILES)
@@ -79,7 +84,7 @@ def registerPage(request):
             user.password =make_password(password)
             if formImage.is_valid():
                 user.avatar = str(user.id)+'avt'+".png"
-            customer = Customer(name=name, address=address,
+            customer = Customer(name=name, address=address,slug= slugify(name) + "-" + id_generator(),
                                 email=email, birthday=birthday)
             customer.save()
             # create user

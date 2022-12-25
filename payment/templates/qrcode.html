@@ -1,0 +1,157 @@
+{% extends 'main.html' %} {% block style %} {% load static %}
+<link rel="stylesheet" href="{% static 'css/qrcodestyle.css' %}" />
+{% endblock %} {% block content %} {% load static %}
+<div class="container py-5 h-100">
+  <div class="row mt-2">
+    <h3>Mã đơn hàng : {{order.name}}</h3>
+  </div>
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col col-md-9 col-lg-7 col-xl-5">
+      <div class="card" style="border-radius: 15px">
+        <div class="card-body p-4">
+          <div class="d-flex text-black">
+            <div class="flex-shrink-0">
+              <img src="/media/{{qrcode.qrcode}}" alt="Generic placeholder image" class="img-fluid"
+                style="width: 480px; border-radius: 10px" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-grow-1 my-3">
+        <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef">
+          <h5>{{qrcode.created_at}}</h5>
+          <h5 class="mb-1 my-5">{{qrcode.name}}</h5>
+        </div>
+        <div class="d-flex pt-1">
+          <form action="{% url 'qrcode' token=qrcode.token %}" method="GET">
+            <button type="submit" value="{{qrcode.token}}" name="confirm" class="btn btn-primary flex-grow-1">
+              Xác nhận
+            </button>
+            <button type="submit" value="{{qrcode.token}}" name="confirm" class="btn btn-primary flex-grow-1">
+              Hủy
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5 mb-2">
+    <div class="row d-flexborder bg-light">
+      <div class="col-2 my-4 d-flex flex-column">
+        {% if process_order.process1 != null %}
+          <i class="fa-sharp fa-solid fa-receipt fs-1 text-info"></i>
+          <h5 class="mt-5">Đơn hàng đã đặt</h5>
+          <p>{{process_order.process1}}</p>
+        {%endif%}
+      </div>
+      <div class="col-2 my-4 d-flex flex-column">
+        {% if process_order.process >= 1 %}
+          {% if process_order.process2 != null %}
+            <i class="fa-solid fa-money-bill-wave fs-1 text-info"></i>
+            <h5 class="mt-5">Đã xác nhận</h5>
+            <p>{{process_order.process2}}</p>
+          {% else %}
+            <i class="fa-solid fa-money-bill-wave fs-1 text-danger"></i>
+            <h5 class="mt-5">Đã xác nhận</h5>
+            <form action="{% url 'qrcode' token=token %}" method="GET">
+              {% csrf_token %}
+              {% if process_order.process == 1 %}
+              <button type="submit" class="btn btn-danger" name="confirm" value="2" href=""> Xác nhận tiện độ 2 </button>
+              {%endif%}
+            </form>
+          {%endif%}
+        {% else %}
+        <i class="fa-solid fa-money-bill-wave fs-1 text-muted"></i>
+        <h5 class="mt-5">Đã xác nhận</h5>
+        {%endif%}
+      </div>
+      <div class="col-2 my-4 d-flex flex-column">
+        {% if process_order.process >= 2%}
+          {% if process_order.process3 != null %}
+          <i class="fa-solid fa-truck-arrow-right fs-1 text-info"></i>
+          <h5 class="mt-5">Đã giao cho DVVC</h5>
+            <p>{{process_order.process3}}</p>
+          {% else %}
+          <i class="fa-solid fa-truck-arrow-right fs-1 text-danger"></i>
+          <h5 class="mt-5">Đã giao cho DVVC</h5>
+          <form action="{% url 'qrcode' token=token %}" method="GET">
+            {% csrf_token %}
+            {% if process_order.process == 2 %}
+              <button type="submit" class="btn btn-danger" name="confirm" value="3" href=""> Xác nhận tiện độ 3 </button>
+            {%endif%}
+          </form>
+          {%endif%}
+        {% else %}
+          <i class="fa-solid fa-truck-arrow-right fs-1 text-muted"></i>
+          <h5 class="mt-5">Đã giao cho DVVC</h5>
+        {%endif%}
+      </div>
+      <div class="col-2 my-4 d-flex flex-column">
+        {% if process_order.process >= 3 %}
+          {% if process_order.process4 != null %}
+          <i class="fa-solid fa-box fs-1 text-info"></i>
+          <h5 class="mt-5">Đã nhận được hàng</h5>
+            <p>{{process_order.process4}}</p>
+          {% else %}
+          <i class="fa-solid fa-box fs-1 text-danger"></i>
+          <h5 class="mt-5">Đã nhận được hàng</h5>
+          <form action="{% url 'qrcode' token=token %}" method="GET">
+            {% csrf_token %}
+            {% if process_order.process == 3 %}
+            <button type="submit" class="btn btn-danger" name="confirm" value="4" href=""> Xác nhận tiện độ 4 </button>
+            {%endif%}
+          </form>
+          {%endif%}
+        {% else %}
+        <i class="fa-solid fa-box fs-1 text-muted"></i>
+        <h5 class="mt-5">Đã nhận được hàng</h5>
+        {%endif%}
+      </div>
+      <div class="col-2 my-4 d-flex flex-column">
+        {% if process_order.process >= 4 %}
+          {% if process_order.process5 != null %}
+          <i class="fa-solid fa-person fs-1 text-info"></i>
+          <h5 class="mt-5">Đơn hàng đã giao</h5>
+            <p>{{process_order.process5}}</p>
+          {% else %}
+          <i class="fa-solid fa-person fs-1 text-danger"></i>
+          <h5 class="mt-5">Đơn hàng đã giao</h5>
+          <form action="{% url 'qrcode' token=token %}" method="GET">
+            {% csrf_token %}
+            {% if process_order.process == 4 %}
+            <button type="submit" class="btn btn-danger" name="confirm" value="5" href=""> Xác nhận tiện độ 5 </button>
+            {%endif%}
+          </form>
+          {%endif%}
+        {% else %}
+        <i class="fa-solid fa-person fs-1 text-muted"></i>
+        <h5 class="mt-5">Đơn hàng đã giao</h5>
+        {%endif%}
+
+      </div>
+      <div class="col-2 my-4 d-flex flex-column">
+        {% if process_order.process >= 5 %}
+          {% if process_order.process6 != null %}
+          <i class="fa-solid fa-star fs-1 text-info"></i>
+                <h5 class="mt-5"> Cho ý kiến shop</h5>
+            <p>{{process_order.process6}}</p>
+          {% else %}
+          <i class="fa-solid fa-star fs-1 text-danger"></i>
+                <h5 class="mt-5"> Cho ý kiến shop</h5>
+          <form action="{% url 'qrcode' token=token %}" method="GET">
+            {% csrf_token %}
+            {% if process_order.process == 5 %}
+            <input type="text" class="btn btn-danger"  name="prorcess6"/>
+            <button type="submit" class="btn btn-danger" name="confirm" value="6" href=""> Xác nhận tiện độ 6 </button>
+            {%endif%}
+          </form>
+          {%endif%}
+        {% else %}
+        <i class="fa-solid fa-star fs-1 text-muted"></i>
+                <h5 class="mt-5"> Cho ý kiến shop</h5>
+        {%endif%}
+
+      </div>
+  </div>
+</div>
+{% endblock %}

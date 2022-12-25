@@ -41,14 +41,20 @@ def myAccountPage(request):
     if request.POST:
         name_order = request.POST['nameorder']
         order = Order.objects.get(name=name_order)
+        order.status=True
+        order.save()
         
+    order = Order.objects.filter(customer_id = request.user.customer_id,status=True,payments__isnull=False).values(
+        'name','total_price','payments__allowed' ,'datetime'
+    )
     dataCustomerCurrent = Customer.objects.filter(users__username=request.user)
     dataUserCurrent = User.objects.get(username=request.user)
     list_category = Categories.objects.all()
     return render(request,'account.html',{ 'current' :request.user ,
                                            'dataUserCurrent':dataUserCurrent,
                                            'dataCustomerCurrent':dataCustomerCurrent[0],
-                                           'list_category':list_category
+                                           'list_category':list_category,
+                                           'order':order,
                                            })
     
 @login_required

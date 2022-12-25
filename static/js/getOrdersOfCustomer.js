@@ -2,7 +2,7 @@ var headers = {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() };
 var data = []
 $.ajax({
   type:'GET',
-  url:"/api/product/?store=true",
+  url:"/api/order/?customer_id=1",
   contentType: "json",
   headers: headers,
   success:function(){

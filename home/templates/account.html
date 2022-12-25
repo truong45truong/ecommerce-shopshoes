@@ -111,6 +111,39 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <h3 class="mt-5 mb-2"><i>Sản phẩm đã mua</i></h3>
+            <div>
+                <table class="table align-middle mb-0 bg-white mt-2 border border-secondary">
+                    <thead class="bg-light">
+                      <tr>
+                        <th>Tên Sản phẩm</th>
+                        <th>Giá</th>
+                        <th>Trạng thái</th>
+                        <th> Ngày Mua </th>
+                        <th>Đánh giá </th>
+                      </tr>
+                    </thead>
+                    <tbody class="list-product-of-store">
+                        {% for order_item in order %}
+                            <tr>
+                                <td> {{order_item.name}} </td>
+                                <td> {{order_item.total_price}} </td>
+                                {% if order_item.payments__allowed == False %}
+                                <td> Chưa thanh toán </td>
+                                {%endif%}
+                                {% if order_item.payments__allowed == True %}
+                                <td> Đã thanh toán </td>
+                                {%endif%}
+                                <td> {{order_item.datetime}} </td>
+                                <td> <a href="{% url 'vieworder' order_name=order_item.name %}" class="btn btn-info">Xem thông tin đơn hàng</a> </td>
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+                  </div>
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}

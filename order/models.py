@@ -19,6 +19,8 @@ class Order(models.Model):
     address_receiver = models.CharField(max_length=200,null=True)
     phone_receiver = models.CharField(max_length=10,null=True)
     status = models.BooleanField()
+    note = models.CharField(max_length=50,null=True)
+    logs = models.TextField(null=True)
     total_price = models.FloatField(null=True)
     customer_id = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     transport_id = models.ForeignKey(Transport, on_delete=models.SET_NULL, null=True)

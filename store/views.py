@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from product.filters import ProductFilter
 from django.shortcuts import render,redirect
-from login.models import Store
+from order.models import Order,Detail_order
 from login.views import upload,handleImageUpload
 from login.forms import ImageStoreForm
 
@@ -16,6 +16,22 @@ def myStorePage(request):
     list_product = Product.objects.filter(
         prices__isnull=False, photo_products__isnull=False).values(
         'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'prices__price_total', 'category_id__logo')
+    order = []
+    try:
+        orders = Order.objects.filter(status=True,payments__isnull=False,
+                                    detail_orders__isnull=False,detail_orders__product_id__store_id=dataStore[0]
+                                    ).values(
+            'name','total_price','payments__allowed' ,'datetime' ,'payments__qrcode__token'
+        )
+        print("orders",orders.query)
+        check = dict()
+        for i in orders:
+            print(i)
+            if i['name'] not in check:
+                check[i['name']]=True
+                order.append(i)
+    except:
+        pass
     filtered_qs = ProductFilter(request.GET, queryset=list_product).qs
     paginator = Paginator(filtered_qs, 6)
     page_number = request.GET.get('page')
@@ -54,7 +70,8 @@ def myStorePage(request):
                                                 'pages': range(1, page_obj.paginator.num_pages) ,
                                                 'dataStore':dataStore[0] ,'current' : request.user ,
                                                 'formImage':formImage,
-                                                'list_category': list_category
+                                                'list_category': list_category,
+                                                'order' : order
                                                 })
 
 

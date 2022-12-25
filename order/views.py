@@ -168,3 +168,31 @@ def remove_to_cart (request):
     dir_product_cart = handleDuplicateProducts(dataUser)
     total_price, products = processingSynthesisProduct(dir_product_cart)
     return HttpResponse(json.dumps(products))
+@login_required
+def ViewOrder(request, order_name):
+    list_category=Categories.objects.all()
+    order = Order.objects.get(name=order_name)
+    product = []
+    product_cart_user = Detail_order.objects.filter(customer_id=request.user.customer_id,order_id=order).values(
+            'product_id','quantity','size'
+        )
+    customer = request.user.customer_id
+    for item in product_cart_user:
+        items = Product.objects.filter(
+                prices__isnull=False, photo_products__isnull=False, id=item['product_id']).values(
+                'name', 'slug', 'sex', 'prices__price', 'prices__sale',
+                'photo_products__name', 'prices__price_total', 'category_id__logo'
+            )
+        product.append({
+            'name': items[0]['name'],
+            'quantity': item['quantity'],
+            'size' : item['size'],
+            'sex': items[0]['sex'],
+            'prices__price': items[0]['prices__price'],
+            'prices__price_total' : items[0]['prices__price_total'],
+            'prices__sale': items[0]['prices__sale'],
+            'photo_products__name' : items[0]['photo_products__name'],
+        })
+    return render(request,'order.html',{'list_category' : list_category ,'product' : product ,
+                                        'customer' : customer ,'order' : order ,'current' : request.user
+                                        })
