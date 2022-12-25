@@ -1,6 +1,7 @@
 from django.db import models
 from product.models import Product
 from login.models import Customer
+import uuid 
 # Create your models here.
 
 class Transport(models.Model):
@@ -28,5 +29,6 @@ class Detail_order(models.Model):
     quantity = models.IntegerField()
     order_id = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,related_name='detail_orders')
     product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    customer_id = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     size = models.IntegerField()
 

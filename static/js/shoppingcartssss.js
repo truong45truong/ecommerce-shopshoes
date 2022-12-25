@@ -13,6 +13,20 @@ $(document).ready(()=>{
         hrefPay += document.getElementById('select-transport-pay').value
 
         console.log(hrefPay,document.getElementById('select-transport-pay'))
+        if(listProductPay.length == 0){
+            alert("bạn chưa chọn đầy đủ thông tin")
+        } else {
+            hrefPay = document.getElementById('pay-product').href
+            hrefPay += '?productPay=';
+            for (oj of listProductPay){
+                hrefPay = hrefPay + oj +"_"
+            }
+            hrefPay += '&transport='
+            hrefPay += document.getElementById('select-transport-pay').value
+
+            console.log(hrefPay,document.getElementById('select-transport-pay'))
+            document.getElementById('pay-product').href=hrefPay
+        }
     }
     $('.select-transport').change(function() {
         $('.price-sport').empty();
@@ -105,7 +119,7 @@ $(document).ready(()=>{
                         + "</div>"
                         + "<hr class='my-4 w-100'>"
                         + "</div>"
-                        + "<script src='/static/js/shoppingcartsss.js'></script>"
+                        + "<script src='/static/js/shoppingcartssss.js'></script>"
                     $('.data-product').append(str)
                 }
             }

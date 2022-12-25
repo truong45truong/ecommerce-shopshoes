@@ -4,6 +4,7 @@ from product.models import Product, Categories, Price
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from product.filters import ProductFilter
+from order.models import Order
 from django.shortcuts import render,redirect
 from login.models import User,Customer,Store,Feedback
 from login.views import upload,handleImageUpload
@@ -37,6 +38,10 @@ def homePage(request):
 # Create your views here.
 @login_required
 def myAccountPage(request):
+    if request.POST:
+        name_order = request.POST['nameorder']
+        order = Order.objects.get(name=name_order)
+        
     dataCustomerCurrent = Customer.objects.filter(users__username=request.user)
     dataUserCurrent = User.objects.get(username=request.user)
     list_category = Categories.objects.all()
@@ -45,6 +50,7 @@ def myAccountPage(request):
                                            'dataCustomerCurrent':dataCustomerCurrent[0],
                                            'list_category':list_category
                                            })
+    
 @login_required
 def myStorePage(request):
     list_category = Categories.objects.all()

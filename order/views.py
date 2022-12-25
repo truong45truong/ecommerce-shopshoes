@@ -19,15 +19,15 @@ def getProductOfUser(request, data):
     if current_user.is_authenticated:
         user = User.objects.get(username=current_user)
         customer = Customer.objects.filter(users__username=user)
-        product_cart_user = Order.objects.filter(customer_id=customer[0], detail_orders__isnull=False).values(
-            'detail_orders__product_id__slug', 'detail_orders__quantity' , 'detail_orders__size'
+        product_cart_user = Detail_order.objects.filter(customer_id=customer[0]).values(
+            'product_id','quantity','size'
         )
         
         for item in product_cart_user:
             data.append({
-                'slug': item['detail_orders__product_id__slug'],
-                'quantity': item['detail_orders__quantity'],
-                'size' : item['detail_orders__size'],
+                'slug': Product.objects.get(id=item['product_id']).slug,
+                'quantity': item['quantity'],
+                'size' : item['size'],
             })
     return data
 def handleDuplicateProducts(data):
@@ -107,22 +107,11 @@ def add_to_cart(request):
     def add_with_account(request):
         user = User.objects.get(username=request.user)
         customer = user.customer_id
-        print(slugify(""+customer.name+"-"+data['slug']+id_generator()))
-        order = Order(
-            name=slugify(""+customer.name+"-"+data['slug']+id_generator()),
-            datetime=datetime.datetime.now(),
-            receiver=customer.name,
-            address_receiver=customer.address,
-            phone_receiver=user.phone,
-            status=False,
-            customer_id=customer
-        )
-        order.save()
+
         detail_order = Detail_order(
-            status=False, quantity=data['quantity'], product_id=product, order_id=order,size = data['sizes'])
+            status=False, quantity=data['quantity'], product_id=product,size = data['sizes'],customer_id=customer)
         detail_order.save()
 
-        order.save()
 
     def add_with_session(request):
         try:

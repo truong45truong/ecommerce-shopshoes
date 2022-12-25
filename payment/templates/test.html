@@ -7,20 +7,86 @@
 {% block content %}
 {% load static %}
 <div class="container">
-    <!-- <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-        <input id="id_cmd" name="cmd" type="hidden" value="_xclick"><input id="id_charset" name="charset" type="hidden"
-            value="utf-8"><input id="id_currency_code" name="currency_code" type="hidden" value="USD"><input
-            id="id_no_shipping" name="no_shipping" type="hidden" value="1"><input id="id_business" name="business"
-            type="hidden" value="sb-ipzcv22342999@business.example.com"><input id="id_amount" name="amount"
-            type="hidden" value="20.00"><input id="id_item_name" name="item_name" type="hidden" value="Product 1"><input
-            id="id_invoice" name="invoice" type="hidden" value="826956bb-8db8-4b89-b927-86d67ed7929f"><input
-            id="id_curency_code" name="curency_code" type="hidden" value="VND"><input id="id_notify_url"
-            name="notify_url" type="hidden" value="http://127.0.0.1:8000,/paypal/"><input id="id_cancel_return"
-            name="cancel_return" type="hidden" value="http://127.0.0.1:8000,/payment/paypal-cancel"><input
-            id="id_return" name="return" type="hidden" value="http://127.0.0.1:8000,/payment/paypal-reverse%22">
-        <input class="btn-paypal" alt="Buy it Now" name="submit" src="{% static 'image/paypal-buy.png' %}" type="image">
-    </form> -->
-    {{form.render}}
+    <div class="row my-5 bg-light">
+        <hr class="mb-4">
+        <div class="">
+            <h5 class="mx-5" > <i class="fa-solid fa-location-dot mx-3"></i> Địa chỉ nhận hàng</h5>
+            <div class="d-flex">
+                <h5 class="mx-5 my-2">{{customer.name}} ({{current.phone}})</h5>
+                <h5 class="mx-5 my-2">{{customer.address}}</h5>
+            </div>
+        </div>
+        <hr class="mt-4">
+    </div>
+    <div class="row">
+        <h5>Sản phẩm</h5>
+    </div>
+    <div class="row my-5 bg-light border">
+        <hr class="mb-4">
+        <div class="data-product">
+            {% for i in product %}
+                <div class="list-item-cart py-3">
+                    <div id="item-cart" class="row mb-4 d-flex justify-content-between align-items-center">
+                        <div class="col-md-2 col-lg-2 col-xl-2 d-flex">
+                            <img src="/media/photos/products/{{i.photo_products__name}}" class="img-fluid rounded-3" alt="Cotton T-shirt">
+                        </div>
+                        <div class="col-md-3 col-lg-3 col-xl-3">
+                        <h6 class="text-muted">Size : <p class="d-inline"> {{i.size}}</p> </h6>
+                        <div class="gender-item">
+                            {% if i.sex == 1  %}
+                                <h6 class="text-muted">Men</h6>
+                            {% endif %}
+                            {% if i.sex == 2 %}
+                                <h6 class="text-muted">Women</h6>
+                            {% endif %}
+                            {% if i.sex == 0 %}
+                                <h6 class="text-muted">All</h6>
+                            {% endif %}
+                        </div>
+                        <h6 class="text-black mb-0">{{i.name}}</h6>
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                            <h6 class="mb-0">{{i.quantity}}</h6>
+                            </div>
+                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                        <h6 class="mb-0">{{i.prices__price}}</h6>
+                        </div>
+                    </div>
+
+                </div>
+            {%endfor%}
+        </div>
+        <hr class="mt-4">
+    </div>
+    <div class="row my-5 bg-light">
+        <hr class="mb-4">
+        <div class="col-6 ">
+            <div class="d-flex">
+                <h5 class="mx-5 my-2">đơn vị vận chuyển</h5>
+                <h5 class="mx-5 my-2">{{transport.name}}</h5>
+                <h5 class="mx-5 my-2">{{transport.price}}</h5>
+            </div>
+        </div>
+        <div class="col-6 ">
+            <div class="d-flex">
+                <h5 class="mx-5 my-2">Tổng số tiền </h5>
+                <h5 class="mx-5 my-2">{{order.total_price}}</h5>
+            </div>
+        </div>
+        <hr class="mt-4">
+    </div>
+    <div class="row my-5 bg-light">
+        <h5> Phương thức thanh toán</h5>
+        <div class="d-flex my-5">
+            <h5 class='me-5'>Thanh toán bằng Paypal </h5> {{form.render}}
+        </div>
+        <div class="d-flex my-5">
+            <h5 class='me-5'>Thanh toán bằng Khi nhân hàng </h5>
+            <form action="{% url 'payment' %}">
+                <button class="ms-5 btn btn-info"> Mua hàng </button> 
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
