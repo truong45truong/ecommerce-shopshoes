@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .models import Order, Detail_order,Transport
 from payment.models import Payment, Process_order
-from product.models import Product,Categories
+from product.models import Product,Categories,Evaluate
 from login.models import Customer, User
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import HttpResponse
@@ -195,6 +195,18 @@ def ViewOrder(request, order_name):
             'prices__sale': items[0]['prices__sale'],
             'photo_products__name' : items[0]['photo_products__name'],
         })
+    if request.POST :
+        if process_order.process == 5:
+            for item in product_cart_user:
+                print(item)
+                eval = Evaluate.objects.create(description=request.POST['prorcess6'],product_id=Product(id=item['product_id']),
+                                            user_id = request.user,datetime_create=datetime.datetime.now()
+                                            )
+                eval.save()
+            process_order.process6 = request.POST['prorcess6']
+            process_order.process = 6
+            process_order.save()
+
     return render(request,'order.html',{'list_category' : list_category ,'product' : product ,
                                         'customer' : customer ,'order' : order ,'current' : request.user
                                         ,'process_order' : process_order ,'order_name' :order_name

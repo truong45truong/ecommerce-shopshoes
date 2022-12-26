@@ -85,6 +85,7 @@ def paymentPage (request):
                     detail_order.order_id=order
                     detail_order.save()
                     process_order.store_id = Store.objects.get(id=product_item[0]['store_id'])
+                    process_order.save()
             
     order.total_price=total
     print(total)

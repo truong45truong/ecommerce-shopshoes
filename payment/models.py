@@ -32,7 +32,7 @@ class Qrcode(models.Model):
       return self.name
     def save(self, *args , **kwargs):
       token = secrets.token_hex(16)
-      url = "127.0.0.1/qrcode/"+token
+      url = "127.0.0.1/payment/qrcode/"+token
       self.token = token
       qr_image = qrcode.make(url)
       qr_offset = Image.new('RGB',(415,415),'white')

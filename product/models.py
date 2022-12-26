@@ -35,7 +35,7 @@ class Size(models.Model):
 
 class Evaluate(models.Model):
     id = models.BigAutoField(primary_key=True)
-    rate=models.FloatField()
+    rate=models.FloatField(null= True)
     description=models.TextField(null=True)
     user_id=models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
