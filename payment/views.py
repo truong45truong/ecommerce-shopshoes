@@ -6,7 +6,7 @@ from django.contrib import messages
 from product.models import Product
 from .models import Qrcode,Payment,Process_order
 from django.shortcuts import HttpResponse
-from login.models import User
+from login.models import User,Store
 from django.conf import settings
 from order.models import Order,Detail_order,Transport
 import uuid 
@@ -84,6 +84,7 @@ def paymentPage (request):
                     product.append(product_add)
                     detail_order.order_id=order
                     detail_order.save()
+                    process_order.store_id = Store.objects.get(id=product_item[0]['store_id'])
             
     order.total_price=total
     print(total)
@@ -128,10 +129,11 @@ def qrcodePage(request,token):
         'is_staff'
     )
     if current[0]['is_staff'] == True : 
-        
+    
         qrcode = Qrcode.objects.get(token=token)
         payment = Payment.objects.get(qrcode = qrcode)
         process_order = Process_order.objects.get(order_id=payment.order_id)
+        order = Order.objects.get(id=payment.order_id.id)
         process_order.save()
         if request.GET :
             confirm = request.GET['confirm']
@@ -182,7 +184,7 @@ def qrcodePage(request,token):
         print("process_order.process",process_order.process)
         return render(request,'qrcode.html',{'qrcode':qrcode ,'list_category' : list_category,
                                           'current' : request.user ,'process_order':process_order,
-                                          'token' : token,
+                                          'token' : token, 'order' : order
                                          })
     else :
         redirect('home')

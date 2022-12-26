@@ -118,31 +118,51 @@
                 <table class="table align-middle mb-0 bg-white mt-2 border border-secondary">
                     <thead class="bg-light">
                       <tr>
-                        <th>Tên Đơn</th>
-                        <th>Giá</th>
-                        <th>Tình trạng</th>
-                        <th>Ngày tạo đơn</th>
-                        <th>Xác nhận đơn</th>
+                        <th class="border border-2 border-dark-subtle">Tên Đơn</th>
+                        <th class="border border-2 border-dark-subtle">Giá</th>
+                        <th class="border border-2 border-dark-subtle">Tình trạng</th>
+                        <th class="border border-2 border-dark-subtle">Ngày tạo đơn</th>
+                        <th class="border border-2 border-dark-subtle">Xác nhận đơn</th>
                       </tr>
                     </thead>
                     <tbody class="list-product-of-store">
                         {% for order_item in order %}
                             <tr>
-                                <td> {{order_item.name}} </td>
-                                <td> {{order_item.total_price}} </td>
+                                <td class="border border-2 border-dark-subtle"> {{order_item.name}} </td>
+                                <td class="border border-2 border-dark-subtle"> {{order_item.total_price}} </td>
                                 {% if order_item.payments__allowed == False %}
-                                <td> Chưa thanh toán </td>
+                                <td class="border border-2 border-dark-subtle"> Chưa thanh toán </td>
                                 {%endif%}
                                 {% if order_item.payments__allowed == True %}
-                                <td> Đã thanh toán </td>
+                                <td class="border border-2 border-dark-subtle"> Đã thanh toán </td>
                                 {%endif%}
-                                <td> {{order_item.datetime}} </td>
-                                <td> <a href="{% url 'qrcode' token=order_item.payments__qrcode__token %}" class="btn btn-info">Xem thông tin đơn hàng</a> </td>
+                                <td class="border border-2 border-dark-subtle"> {{order_item.datetime}} </td>
+                                <td class="border border-2 border-dark-subtle text-light"> <a href="{% url 'qrcode' token=order_item.payments__qrcode__token %}" class="btn btn-info">Xem thông tin đơn hàng</a> </td>
                             </tr>
                         {%endfor%}
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="row">
+            <div>
+                <h1 class="mt-5 mx-3"> <i class="icon-new-product fa-sharp fa-solid fa-arrow-right fs-2"></i><i
+                        class="mx-2">Đơn hàng của bạn</i>
+                </h1>
+            </div>
+            <form action="{% url 'statisticorder' %}" method="GET" class="d-flex justify-content-around">
+                <div class="col-3">
+                    <input type="datetime-local" id="birthdaytime" name="date_start">
+                    
+                </div>
+                <div class="col-3">
+                    <input type="datetime-local" id="birthdaytime" name="date_end">
+                </div>
+                <div class="col-3">
+                    <button class="btn btn-info" type="submit"> Xem thống kê của bạn </button>
+                </div>
+            </form>
+            
         </div>
         <div class="row">
             <h1 class="my-5 mx-3"> <i class="icon-new-product fa-sharp fa-solid fa-arrow-right fs-2"></i><i
@@ -174,10 +194,10 @@
                 <table class="table align-middle mb-0 bg-white mt-2 border border-secondary">
                     <thead class="bg-light">
                       <tr>
-                        <th>Tên Sản phẩm</th>
-                        <th>Giá</th>
-                        <th>Tình Trạng</th>
-                        <th>Công cụ</th>
+                        <th class="border border-2 border-dark-subtle">Tên Sản phẩm</th>
+                        <th class="border border-2 border-dark-subtle">Giá</th>
+                        <th class="border border-2 border-dark-subtle">Tình Trạng</th>
+                        <th class="border border-2 border-dark-subtle">Công cụ</th>
                       </tr>
                     </thead>
                     <tbody id ="tbody-product" class="list-product-of-store">
@@ -201,5 +221,5 @@
 {% block javastript %}
 {% load static %}
 <script src="/static/js/store.js"></script>
-<script src="/static/js/getproductsOfstores.js"></script>
+<script src="/static/js/getproductsOfstoress.js"></script>
 {% endblock %}

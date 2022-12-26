@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from .models import Order, Detail_order,Transport
+from payment.models import Payment, Process_order
 from product.models import Product,Categories
 from login.models import Customer, User
 from django.contrib.auth.hashers import check_password
@@ -172,6 +173,7 @@ def remove_to_cart (request):
 def ViewOrder(request, order_name):
     list_category=Categories.objects.all()
     order = Order.objects.get(name=order_name)
+    process_order = Process_order.objects.get(order_id=order.id)
     product = []
     product_cart_user = Detail_order.objects.filter(customer_id=request.user.customer_id,order_id=order).values(
             'product_id','quantity','size'
@@ -195,4 +197,5 @@ def ViewOrder(request, order_name):
         })
     return render(request,'order.html',{'list_category' : list_category ,'product' : product ,
                                         'customer' : customer ,'order' : order ,'current' : request.user
+                                        ,'process_order' : process_order ,'order_name' :order_name
                                         })

@@ -64,3 +64,4 @@ class Process_order(models.Model):
     process6 = models.CharField(max_length=200,null=True,blank=True)
     process = models.IntegerField()
     order_id = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,blank=True,related_name='processorders')
+    store_id = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True,blank=True)

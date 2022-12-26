@@ -2,13 +2,17 @@ from django.shortcuts import render,redirect
 from login.models import Store
 from product.models import Product,Categories
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from product.filters import ProductFilter
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,HttpResponse
 from order.models import Order,Detail_order
+from payment.models import Process_order
 from login.views import upload,handleImageUpload
 from login.forms import ImageStoreForm
-
+from  datetime import datetime
+import json
+ 
 @login_required
 def myStorePage(request):
     list_category = Categories.objects.all()
@@ -17,20 +21,16 @@ def myStorePage(request):
         prices__isnull=False, photo_products__isnull=False).values(
         'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'prices__price_total', 'category_id__logo')
     order = []
-    try:
-        orders = Order.objects.filter(status=True,payments__isnull=False,
-                                    detail_orders__isnull=False,detail_orders__product_id__store_id=dataStore[0]
-                                    ).values(
-            'name','total_price','payments__allowed' ,'datetime' ,'payments__qrcode__token'
-        )
-        print("orders",orders.query)
-        check = dict()
-        for i in orders:
-            print(i)
-            if i['name'] not in check:
-                check[i['name']]=True
-                order.append(i)
-    except:
+    try :
+        process_order = Process_order.objects.filter(process=1 , store_id = dataStore[0])
+        for item in process_order : 
+            order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False ).values(
+                'name','total_price','payments__allowed','datetime','payments__qrcode__token'
+            )
+            if order_item:
+                order.append(order_item[0])
+                print(order_item)
+    except :
         pass
     filtered_qs = ProductFilter(request.GET, queryset=list_product).qs
     paginator = Paginator(filtered_qs, 6)
@@ -87,4 +87,58 @@ def detailStorePage(request,slugstore):
         return render(request,'storeDetail.html',{'page_obj': page_obj, 'pages': range(1, page_obj.paginator.num_pages), 'current' :request.user,'store': True})
     else :
         return render(request,'storeDetail.html',{ 'page_obj': page_obj, 'pages': range(1, page_obj.paginator.num_pages),'current' : False ,'store': True})
+
+
+@login_required
+def statisticOrder(request):
+    order=[]
+    total = 0
+    number_order= 0
+    if request.GET:
+        date_start = datetime.fromisoformat(request.GET['date_start'])
+
+        date_end =datetime.fromisoformat(request.GET['date_end'])
+        
+        try :
+            process_order = Process_order.objects.filter( store_id = request.user.store_id)
+            for item in process_order : 
+                order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False,
+                            datetime__gte = date_start , datetime__lte = date_end ,payments__allowed =True
+                    ).values(
+                    'name','total_price','payments__allowed','datetime','payments__qrcode__token'
+                )
+                if order_item:
+                    total += order_item[0]['total_price']
+                    number_order += 1
+                    order.append(order_item[0])
+            order = sorted(order, key=lambda values: values['datetime'])
+        except :
+            pass
+        return render(request,'statisticResultOrder.html',{'order' : order , 'date_start' : request.GET['date_start'] , 'date_end' : request.GET['date_end'] ,
+                                                           'total': total , 'number_order' : number_order
+                                                        })
+
+@csrf_exempt
+def getValueChart(request):
+    data= json.loads(request.body.decode('utf-8'))
+    print(data)
+    if data['post'] is True:
+        order=[]
+        date_start = datetime.fromisoformat(data['date_start'])
+        date_end =datetime.fromisoformat(data['date_end'])
+        try :
+            process_order = Process_order.objects.filter( store_id = request.user.store_id)
+            for item in process_order : 
+                order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False,
+                            datetime__gte = date_start , datetime__lte = date_end ,payments__allowed =True
+                    ).values(
+                    'total_price','datetime'
+                )
+                    
+                if order_item:
+                    dat= json.dumps(order_item[0]['datetime'],default=str)
+                    order.append({'x': dat,'y': order_item[0]['total_price']})
+        except :
+            pass
+    return HttpResponse(json.dumps(order))
 

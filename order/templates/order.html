@@ -11,29 +11,96 @@
         </div>
         <div class="row d-flexborder bg-light">
             <div class="col-2 my-4 d-flex flex-column">
-                <i class="fa-sharp fa-solid fa-receipt fs-1 text-info"></i>
-                <h5 class="mt-5">Đơn hàng đã đặt</h5>
-            </div>
-            <div class="col-2 my-4 d-flex flex-column">
-                <i class="fa-solid fa-money-bill-wave fs-1 text-info"></i>
+                {% if process_order.process1 != null %}
+                  <i class="fa-sharp fa-solid fa-receipt fs-1 text-info"></i>
+                  <h5 class="mt-5">Đơn hàng đã đặt</h5>
+                  <p>{{process_order.process1}}</p>
+                {%endif%}
+              </div>
+              <div class="col-2 my-4 d-flex flex-column">
+                {% if process_order.process >= 1 %}
+                  {% if process_order.process2 != null %}
+                    <i class="fa-solid fa-money-bill-wave fs-1 text-info"></i>
+                    <h5 class="mt-5">Đã xác nhận</h5>
+                    <p>{{process_order.process2}}</p>
+                  {% else %}
+                    <i class="fa-solid fa-money-bill-wave fs-1 text-danger"></i>
+                    <h5 class="mt-5">Đã xác nhận</h5>
+                  {%endif%}
+                {% else %}
+                <i class="fa-solid fa-money-bill-wave fs-1 text-muted"></i>
                 <h5 class="mt-5">Đã xác nhận</h5>
-            </div>
-            <div class="col-2 my-4 d-flex flex-column">
-                <i class="fa-solid fa-truck-arrow-right fs-1 text-info"></i>
-                <h5 class="mt-5">Đã giao cho DVVC</h5>
-            </div>
-            <div class="col-2 my-4 d-flex flex-column">
+                {%endif%}
+              </div>
+              <div class="col-2 my-4 d-flex flex-column">
+                {% if process_order.process >= 2%}
+                  {% if process_order.process3 != null %}
+                  <i class="fa-solid fa-truck-arrow-right fs-1 text-info"></i>
+                  <h5 class="mt-5">Đã giao cho DVVC</h5>
+                    <p>{{process_order.process3}}</p>
+                  {% else %}
+                  <i class="fa-solid fa-truck-arrow-right fs-1 text-danger"></i>
+                  <h5 class="mt-5">Đã giao cho DVVC</h5>
+                  {%endif%}
+                {% else %}
+                  <i class="fa-solid fa-truck-arrow-right fs-1 text-muted"></i>
+                  <h5 class="mt-5">Đã giao cho DVVC</h5>
+                {%endif%}
+              </div>
+              <div class="col-2 my-4 d-flex flex-column">
+                {% if process_order.process >= 3 %}
+                  {% if process_order.process4 != null %}
+                  <i class="fa-solid fa-box fs-1 text-info"></i>
+                  <h5 class="mt-5">Đã nhận được hàng</h5>
+                    <p>{{process_order.process4}}</p>
+                  {% else %}
+                  <i class="fa-solid fa-box fs-1 text-danger"></i>
+                  <h5 class="mt-5">Đã nhận được hàng</h5>
+    
+                  {%endif%}
+                {% else %}
                 <i class="fa-solid fa-box fs-1 text-muted"></i>
                 <h5 class="mt-5">Đã nhận được hàng</h5>
-            </div>
-            <div class="col-2 my-4 d-flex flex-column">
+                {%endif%}
+              </div>
+              <div class="col-2 my-4 d-flex flex-column">
+                {% if process_order.process >= 4 %}
+                  {% if process_order.process5 != null %}
+                  <i class="fa-solid fa-person fs-1 text-info"></i>
+                  <h5 class="mt-5">Đơn hàng đã giao</h5>
+                    <p>{{process_order.process5}}</p>
+                  {% else %}
+                  <i class="fa-solid fa-person fs-1 text-danger"></i>
+                  <h5 class="mt-5">Đơn hàng đã giao</h5>
+                  
+                  {%endif%}
+                {% else %}
                 <i class="fa-solid fa-person fs-1 text-muted"></i>
                 <h5 class="mt-5">Đơn hàng đã giao</h5>
-            </div>
-            <div class="col-2 my-4 d-flex flex-column text-muted">
+                {%endif%}
+        
+              </div>
+              <div class="col-2 my-4 d-flex flex-column">
+                {% if process_order.process >= 5 %}
+                  {% if process_order.process6 != null %}
+                  <i class="fa-solid fa-star fs-1 text-info"></i>
+                        <h5 class="mt-5"> Cho ý kiến shop</h5>
+                    <p>{{process_order.process6}}</p>
+                  {% else %}
+                  <i class="fa-solid fa-star fs-1 text-danger"></i>
+                        <h5 class="mt-5"> Cho ý kiến shop</h5>
+                  <form action="{% url 'vieworder' order_name=order_name %}" method="GET">
+                    {% csrf_token %}
+                    {% if process_order.process == 5 %}
+                    <input type="text" class="btn btn-danger"  name="prorcess6"/>
+                    <button type="submit" class="btn btn-danger" name="confirm" value="6" href=""> Xác nhận đánh giá </button>
+                    {%endif%}
+                  </form>
+                  {%endif%}
+                {% else %}
                 <i class="fa-solid fa-star fs-1 text-muted"></i>
-                <h5 class="mt-5"> Cho ý kiến shop</h5>
-            </div>
+                        <h5 class="mt-5"> Đánh giá</h5>
+                {%endif%}
         </div>
         <div class="row mt-5">
             <div class="col-6">

@@ -24,7 +24,7 @@ $(document).ready(()=>{
       $("#tbody-product").empty()
       for(dataitem of data.slice(indexPage*quantityShow,indexPage*quantityShow+quantityShow)){
         var item="<tr>" + "<td>"  + "<div>" + "<img class='img-product' src=" + "'/media/photos/products/"+dataitem['photo_products'][0].name+ "' />"  +  dataitem['name'] + "</div>" +"</td>" 
-                        + "<td>" + dataitem['prices'][0].price+ "</td>"
+                        + "<td>" + dataitem['prices'][0].price + "</td>"
                         + "<td>" + dataitem['description'] + "</td>"
                         + "<td>" + "<div class='d-flex'> " + "<button class='button-91'> Chỉnh sửa </button>"
                         + "<button class='button-62 mx-2'> Xóa </button>"
