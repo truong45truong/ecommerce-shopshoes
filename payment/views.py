@@ -17,28 +17,45 @@ import datetime
 import string
 import random
 import json
-import uuid 
+import uuid
+def RemoveOrderCash(customer):
+    orders = Order.objects.filter(customer_id=customer,status=False)
+    for item in orders:
+        try:
+            payment = Payment.objects.get(order_id=item)
+            qrcode = Qrcode.objects.get(id=payment.qrcode.id)
+            order = Order.objects.get(id=item.id)
+            process_order = Process_order.objects.get(order_id=order)
+            payment.delete()
+            qrcode.delete()
+            order.delete()
+            process_order.delete()
+        except:
+            pass
 @login_required
 def paymentPage (request):
     def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
         return ''.join(random.choice(chars) for _ in range(size))
 
-    def RemoveOrderCash(customer):
-            orders = Order.objects.filter(customer_id=customer,status=False)
-            for item in orders:
-                try:
-                    payment = Payment.objects.get(order_id=item)
-                    qrcode = Qrcode.objects.get(id=payment.qrcode.id)
-                    order = Order.objects.get(id=item.id)
-                    payment.delete()
-                    qrcode.delete()
-                    order.delete()
-                except:
-                    pass
-
-    
+    def checkOrder(data_product):
+        store_check = False
+        for item in productPay:
+            if(item != ""):
+                quantity=item.replace(":", "-").split("-")[-1]
+                size = item.replace(":", "-").split("-")[-2]
+                slug = item.replace("-"+size+":"+quantity, "")
+                if store_check == False:
+                    store_check = Product.objects.get(slug=slug).store_id
+                else:
+                    if store_check != Product.objects.get(slug=slug).store_id :
+                        return False
+                    
     list_category = Categories.objects.all()
     productPay = str(request.GET['productPay']).split('_')
+    if checkOrder(productPay) == False :
+        return HttpResponse(" mời mua lại những sản phẩm cùng cửa hàng")
+    store_check=""
+    
     current = request.user
     customer = current.customer_id
     RemoveOrderCash(customer)
@@ -54,6 +71,8 @@ def paymentPage (request):
             status=False,
             customer_id=customer,
             transport_id = transport,
+            request_cancel=False,
+            cancel=False
         )
 
     order.save()
@@ -137,6 +156,15 @@ def qrcodePage(request,token):
         order = Order.objects.get(id=payment.order_id.id)
         process_order.save()
         if request.GET :
+            try :
+                payment_cancel = request.GET['payment-cancel']
+                if payment_cancel:
+                    order = Order.objects.get(name=payment_cancel)
+                    order.cancel = True
+                    order.save()
+                    return HttpResponse('Hủy đơn thành công')
+            except:
+                pass
             confirm = request.GET['confirm']
             print("confirm",confirm)
             if confirm == "2" and process_order.process1 != None and process_order.process2 == None:
@@ -174,6 +202,8 @@ def qrcodePage(request,token):
                         info += "name confirm: " + request.user.name
                         process_order.process5=info
                         process_order.process=5
+                        payment.allowed = True
+                        payment.save()
             if confirm == "6" and process_order.process1 != None and process_order.process2 != None:
                 if process_order.process3 != None and process_order.process4 != None :
                     if process_order.process5 != None and process_order.process6 == None :
@@ -193,13 +223,28 @@ def qrcodePage(request,token):
 @login_required  
 @csrf_exempt
 def payOnReceipt(request):
+    def delete():
+        qrcode = Qrcode.objects.get(id=payment.qrcode.id)
+        process_order = Process_order.objects.get(order_id=order)
+        payment.delete()
+        qrcode.delete()
+        order.delete()
+        process_order.delete()
     try :
         customer = request.user.customer_id
         data = json.loads(request.body.decode('utf-8'))
         payment = Payment.objects.get(slug=data['slug'])
         order = Order.objects.get(id=payment.order_id.id)
-        order.status=True
-        order.save()
+        product = Detail_order.objects.filter(order_id = order)
+        print(product)
+        if product:
+            order.status = True
+            print(order)
+            order.save()
+            RemoveOrderCash(customer)
+        else:
+            delete()
+            return HttpResponse('Mua hàng thất bại')
     except:
         return HttpResponse('Mua hàng thất bại')
     return HttpResponse('Mua hàng thành công')

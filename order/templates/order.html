@@ -153,6 +153,30 @@
                 {%endfor%}
             </div>
         </div>
+        <div class="d-flex flex-column justify-content-around">
+          {% if process_order.process < 5 %}
+          <form class="d-flex flex-column justify-content-around" action="{% url 'vieworder' order_name=order_name %}" method="POST">
+            {% csrf_token %}
+            {% if order.cancel == True %}
+            <div class="d-flex flex-column">
+              <h5 class="text-danger"> Sản phẩm đã được hủy </h5>
+              <h5 class="text-danger"> Liên hệ cửa hàng : {{store.phone}}</h5>
+            </div>
+            {% else %}
+              {% if order.request_cancel == False %}
+              <button type="submit" value="{{order.name}}" name="request-cancel" class="btn btn-warning py-3 px-4">
+                Đề nghị hủy
+              </button>
+              {% else %}
+              <div class="d-flex flex-column">
+                <h5 class="text-danger"> Sản phẩm đã được đề nghị hủy </h5>
+                <h5 class="text-danger"> Liên hệ cửa hàng : {{store.phone}}</h5>
+              </div>
+              {%endif%}
+            {%endif%}
+          </form>
+          {%endif%}
+        </div>
     </div>
 </main>
 {% endblock %}

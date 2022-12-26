@@ -2,15 +2,15 @@
 <link rel="stylesheet" href="{% static 'css/qrcodestyle.css' %}" />
 {% endblock %} {% block content %} {% load static %}
 <div class="container py-5 h-100">
-  <div class="row mt-2">
-    <h3>Mã đơn hàng : {{order.name}}</h3>
+  <div class="row mt-2 d-flex flex-column mb-5">
+    <h3 class="text-center text-primary">Mã đơn hàng : {{order.name}}</h3>
   </div>
   <div class="row d-flex justify-content-center align-items-center h-100">
     <div class="col col-md-9 col-lg-7 col-xl-5">
-      <div class="card" style="border-radius: 15px">
+      <div class="card " style="border-radius: 15px">
         <div class="card-body p-4">
           <div class="d-flex text-black">
-            <div class="flex-shrink-0">
+            <div class="flex-shrink-0 ">
               <img src="/media/{{qrcode.qrcode}}" alt="Generic placeholder image" class="img-fluid"
                 style="width: 480px; border-radius: 10px" />
             </div>
@@ -18,18 +18,22 @@
         </div>
       </div>
       <div class="flex-grow-1 my-3">
-        <div class="d-flex justify-content-start rounded-3 p-2 mb-2" style="background-color: #efefef">
+        <div class="d-flex justify-content-between rounded-3 p-2 mb-2" style="background-color: #efefef">
           <h5>{{qrcode.created_at}}</h5>
-          <h5 class="mb-1 my-5">{{qrcode.name}}</h5>
+          <h5>{{qrcode.name}}</h5>
         </div>
-        <div class="d-flex pt-1">
-          <form action="{% url 'qrcode' token=qrcode.token %}" method="GET">
-            <button type="submit" value="{{qrcode.token}}" name="confirm" class="btn btn-primary flex-grow-1">
-              Xác nhận
-            </button>
-            <button type="submit" value="{{qrcode.token}}" name="confirm" class="btn btn-primary flex-grow-1">
+        <div class="d-flex flex-column justify-content-around">
+          <form class="d-flex flex-column justify-content-around" action="{% url 'qrcode' token=qrcode.token %}" method="GET">
+            {% if order.cancel == False %}
+            <button type="submit" value="{{order.name}}" name="payment-cancel" class="btn btn-warning py-3 px-4">
               Hủy
             </button>
+            {% else %}
+            <div class="d-flex flex-column">
+              <h5 class="text-danger"> Sản phẩm đã được hủy </h5>
+              <h5 class="text-danger"> Liên hệ khách hàng : {{current.phone}}</h5>
+            </div>
+            {%endif%}
           </form>
         </div>
       </div>
@@ -40,16 +44,16 @@
       <div class="col-2 my-4 d-flex flex-column">
         {% if process_order.process1 != null %}
           <i class="fa-sharp fa-solid fa-receipt fs-1 text-info"></i>
-          <h5 class="mt-5">Đơn hàng đã đặt</h5>
-          <p>{{process_order.process1}}</p>
+          <h5 class="mt-5 text-primary">Đơn hàng đã đặt</h5>
+          <p class="text-primary">{{process_order.process1}}</p>
         {%endif%}
       </div>
       <div class="col-2 my-4 d-flex flex-column">
         {% if process_order.process >= 1 %}
           {% if process_order.process2 != null %}
             <i class="fa-solid fa-money-bill-wave fs-1 text-info"></i>
-            <h5 class="mt-5">Đã xác nhận</h5>
-            <p>{{process_order.process2}}</p>
+            <h5 class="mt-5 text-primary">Đã xác nhận</h5>
+            <p class="text-primary">{{process_order.process2}}</p>
           {% else %}
             <i class="fa-solid fa-money-bill-wave fs-1 text-danger"></i>
             <h5 class="mt-5">Đã xác nhận</h5>
@@ -69,8 +73,8 @@
         {% if process_order.process >= 2%}
           {% if process_order.process3 != null %}
           <i class="fa-solid fa-truck-arrow-right fs-1 text-info"></i>
-          <h5 class="mt-5">Đã giao cho DVVC</h5>
-            <p>{{process_order.process3}}</p>
+          <h5 class="mt-5 text-primary">Đã giao cho DVVC</h5>
+            <p class="text-primary">{{process_order.process3}}</p>
           {% else %}
           <i class="fa-solid fa-truck-arrow-right fs-1 text-danger"></i>
           <h5 class="mt-5">Đã giao cho DVVC</h5>
@@ -90,8 +94,8 @@
         {% if process_order.process >= 3 %}
           {% if process_order.process4 != null %}
           <i class="fa-solid fa-box fs-1 text-info"></i>
-          <h5 class="mt-5">Đã nhận được hàng</h5>
-            <p>{{process_order.process4}}</p>
+          <h5 class="mt-5 text-primary">Đã nhận được hàng</h5>
+            <p class="text-primary">{{process_order.process4}}</p>
           {% else %}
           <i class="fa-solid fa-box fs-1 text-danger"></i>
           <h5 class="mt-5">Đã nhận được hàng</h5>
@@ -111,8 +115,8 @@
         {% if process_order.process >= 4 %}
           {% if process_order.process5 != null %}
           <i class="fa-solid fa-person fs-1 text-info"></i>
-          <h5 class="mt-5">Đơn hàng đã giao</h5>
-            <p>{{process_order.process5}}</p>
+          <h5 class="mt-5 text-primary">Đơn hàng đã giao</h5>
+            <p class="text-primary">{{process_order.process5}}</p>
           {% else %}
           <i class="fa-solid fa-person fs-1 text-danger"></i>
           <h5 class="mt-5">Đơn hàng đã giao</h5>
@@ -133,8 +137,8 @@
         {% if process_order.process >= 5 %}
           {% if process_order.process6 != null %}
           <i class="fa-solid fa-star fs-1 text-info"></i>
-                <h5 class="mt-5"> Cho ý kiến shop</h5>
-            <p>{{process_order.process6}}</p>
+                <h5 class="mt-5 text-primary"> Cho ý kiến shop</h5>
+            <p class="text-primary">{{process_order.process6}}</p>
           {% else %}
           <i class="fa-solid fa-star fs-1 text-danger"></i>
                 <h5 class="mt-5"> Cho ý kiến shop</h5>

@@ -17,25 +17,46 @@ import json
 def myStorePage(request):
     list_category = Categories.objects.all()
     dataStore = Store.objects.filter(users__username=request.user)
-    list_product = Product.objects.filter(
-        prices__isnull=False, photo_products__isnull=False).values(
-        'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'prices__price_total', 'category_id__logo')
+    print(dataStore[0])
     order = []
     try :
-        process_order = Process_order.objects.filter(process=1 , store_id = dataStore[0])
+        process_order = Process_order.objects.filter(process= 1 , store_id = dataStore[0])
+        print(process_order)
         for item in process_order : 
-            order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False ).values(
+            order_item = Order.objects.filter(id=item.order_id.id ,cancel=False,request_cancel =False ,payments__isnull = False).values(
                 'name','total_price','payments__allowed','datetime','payments__qrcode__token'
             )
-            if order_item:
+            print(item)
+            if order_item[0]:
                 order.append(order_item[0])
                 print(order_item)
     except :
         pass
-    filtered_qs = ProductFilter(request.GET, queryset=list_product).qs
-    paginator = Paginator(filtered_qs, 6)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    
+    order_cancel = []
+    try :
+        process_order_cancel = Process_order.objects.filter( store_id = dataStore[0])
+        for item in process_order_cancel : 
+            order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False ,cancel=True).values(
+                'name','total_price','payments__allowed','datetime','payments__qrcode__token'
+            )
+            if order_item:
+                order_cancel.append(order_item[0])
+    except :
+        pass
+    
+    order_request_cancel = []
+    try :
+        process_order_request_cancel = Process_order.objects.filter( store_id = dataStore[0])
+        for item in process_order_request_cancel : 
+            order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False ,request_cancel=True).values(
+                'name','total_price','payments__allowed','datetime','payments__qrcode__token'
+            )
+            if order_item:
+                order_request_cancel.append(order_item[0])
+    except :
+        pass
+    
     formImage  = ImageStoreForm()
     if request.POST :
         formImage  = ImageStoreForm(request.POST,request.FILES)
@@ -66,12 +87,12 @@ def myStorePage(request):
     if(len(dataStore)==0):
         return redirect('registerstore')
     else:
-        return render(request,'storeInfo.html',{'page_obj': page_obj, 
-                                                'pages': range(1, page_obj.paginator.num_pages) ,
+        return render(request,'storeInfo.html',{ 
                                                 'dataStore':dataStore[0] ,'current' : request.user ,
                                                 'formImage':formImage,
                                                 'list_category': list_category,
-                                                'order' : order
+                                                'order' : order , 'order_cancel' : order_cancel,
+                                                'order_request_cancel' :order_request_cancel
                                                 })
 
 
@@ -103,7 +124,7 @@ def statisticOrder(request):
             process_order = Process_order.objects.filter( store_id = request.user.store_id)
             for item in process_order : 
                 order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False,
-                            datetime__gte = date_start , datetime__lte = date_end ,payments__allowed =True
+                            datetime__gte = date_start , datetime__lte = date_end , cancel=False
                     ).values(
                     'name','total_price','payments__allowed','datetime','payments__qrcode__token'
                 )
@@ -130,7 +151,7 @@ def getValueChart(request):
             process_order = Process_order.objects.filter( store_id = request.user.store_id)
             for item in process_order : 
                 order_item = Order.objects.filter(id=item.order_id.id ,payments__isnull = False,
-                            datetime__gte = date_start , datetime__lte = date_end ,payments__allowed =True
+                            datetime__gte = date_start , datetime__lte = date_end ,cancel=False
                     ).values(
                     'total_price','datetime'
                 )

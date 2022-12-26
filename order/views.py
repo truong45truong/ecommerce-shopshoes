@@ -174,6 +174,7 @@ def ViewOrder(request, order_name):
     list_category=Categories.objects.all()
     order = Order.objects.get(name=order_name)
     process_order = Process_order.objects.get(order_id=order.id)
+    store = process_order.store_id
     product = []
     product_cart_user = Detail_order.objects.filter(customer_id=request.user.customer_id,order_id=order).values(
             'product_id','quantity','size'
@@ -206,8 +207,17 @@ def ViewOrder(request, order_name):
             process_order.process6 = request.POST['prorcess6']
             process_order.process = 6
             process_order.save()
+        try:
+            if request.POST['request-cancel']:
+                print("request cancel")
+                order.request_cancel=True
+                order.save()
+        except:
+            pass
+            
 
     return render(request,'order.html',{'list_category' : list_category ,'product' : product ,
                                         'customer' : customer ,'order' : order ,'current' : request.user
-                                        ,'process_order' : process_order ,'order_name' :order_name
+                                        ,'process_order' : process_order ,'order_name' :order_name,
+                                        'store' :store
                                         })

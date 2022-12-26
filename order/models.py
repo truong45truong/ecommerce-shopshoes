@@ -22,6 +22,8 @@ class Order(models.Model):
     note = models.CharField(max_length=50,null=True)
     logs = models.TextField(null=True)
     total_price = models.FloatField(null=True)
+    cancel = models.BooleanField(null = False)
+    request_cancel = models.BooleanField(null = False)
     customer_id = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     transport_id = models.ForeignKey(Transport, on_delete=models.SET_NULL, null=True)
 
