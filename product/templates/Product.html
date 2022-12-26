@@ -6,6 +6,7 @@
 {% block content %}
 {% load static %}
   <main>
+              {% load humanize %}
     <div class="banner">
       <header class="position-relative text-center text-white mb-5">
         <img src="https://www.npd.com/wp-content/uploads/2021/05/footwear-banner-1440x480.jpeg" alt="" class="w-100">
@@ -95,9 +96,9 @@
               id="rangeInput" value="{{filterPrice}}" oninput="maxprice.value=this.value" step="1000">
             <form method="get" action="">
             {% csrf_token %}
-                <input type="number" readonly="" id="maxprice" name="filterPrice" size="7"
+                <= <input type="number" disabled="" id="maxprice" name="filterPrice" class="border-0 mt-1"
                     onkeyup="rangeInput.value=this.value" value="{{filterPrice}}{{minMaxPrice.prices__price_total__max}}">
-                <button type="submit">Lọc giá</button>
+                <button type="submit" class="float-end bg-secondary text-white">Lọc giá</button>
             </form>
 
 
@@ -122,11 +123,11 @@
 
             <div class="row">
               {% for pro in products %}
-              {% load humanize %}
-                <div class="col-md-3 col-5 mb-5 ">
-                  <div class="content-col justify-content-between product-item">
-                    <a href="{% url 'productdetail' slug=pro.slug %}" class="text-decoration-none">
-                      <img class="border-2" src="/media/photos/products/{{pro.photo_products__data}}">
+              <div class="col-md-3 col-5 mb-5 ">
+                <div class="content-col  text-center product-item">
+                    <form action="{% url 'productdetail' slug=pro.slug %}" method="POST">
+                      {% csrf_token %}
+                      <img class="border-2 mb-2" src="/media/photos/products/{{pro.photo_products__data}}">
                       {% if pro.prices__sale > 0.0 %}
                       <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
                       <div class="ribbon sale">SALE {{pro.prices__sale}}%</div>
@@ -148,9 +149,11 @@
                           {{pro.prices__price_total|intcomma}}VND
                         </p>
                       </div>
-                    </a>
-                    <button type="button" class="btn btn-secondary w-100 rounded-0 addCartBtn" data-bs-toggle="modal" data-bs-target="#modal{{pro.slug}}">
-                      <i class="fa-solid fa-cart-shopping me-2"></i>Thêm vào giỏ hàng</button>
+                      <!-- <a href="{% url 'productdetail' slug=pro.slug %}" class="text-decoration-none"></a> -->
+                      <button type="submit" class="btn btn-secondary w-75 rounded-2">
+                        Xem chi tiết</button>
+                      <!-- </a> -->
+                    </form>
                   </div>
                 </div>
               {% endfor %}

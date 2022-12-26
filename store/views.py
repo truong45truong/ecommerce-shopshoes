@@ -59,15 +59,27 @@ def myStorePage(request):
 
 
 def detailStorePage(request,slugstore):
+    list_category = Categories.objects.all()
+    
+    storeInfo = Store.objects.get(slug=slugstore)
     list_product = Product.objects.filter(
-        prices__isnull=False, photo_products__isnull=False).values(
-        'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'prices__price_total', 'category_id__logo')
+        prices__isnull=False, photo_products__isnull=False, store_id__slug=slugstore).values(
+        'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'photo_products__data', 'prices__price_total', 'category_id__logo')
     filtered_qs = ProductFilter(request.GET, queryset=list_product).qs
-    paginator = Paginator(filtered_qs, 6)
+    
+    
+    
+    paginator = Paginator(filtered_qs, 12)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     if (request.user.is_anonymous is False):
-        return render(request,'storeDetail.html',{'page_obj': page_obj, 'pages': range(1, page_obj.paginator.num_pages), 'current' :request.user,'store': True})
+        return render(request,'storeDetail.html',
+                      {'current' :request.user,'store': False, 'list_product':list_product,
+                       'products': page_obj, 'pages': range(1, page_obj.paginator.num_pages), 
+                       'list_category': list_category, 'storeInfo':storeInfo})
     else :
-        return render(request,'storeDetail.html',{ 'page_obj': page_obj, 'pages': range(1, page_obj.paginator.num_pages),'current' : False ,'store': True})
+        return render(request,'storeDetail.html',
+                      {'current' : False ,'store': False, 'list_product':list_product,
+                       'products': page_obj, 'pages': range(1, page_obj.paginator.num_pages),
+                       'list_category': list_category, 'storeInfo':storeInfo})
 

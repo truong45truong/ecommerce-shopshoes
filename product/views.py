@@ -26,6 +26,7 @@ def productPage(request, slug):
     sex = request.GET.get('sexselect')
     minprice = Product.objects.all().aggregate(Min('prices__price_total'))
     maxprice = Product.objects.all().aggregate(Max('prices__price_total'))
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
         
     sortby = request.GET.get('sortby')
     # prod=Product.objects.all()
@@ -41,12 +42,12 @@ def productPage(request, slug):
         
     if slug=='0':
         list_product = Product.objects.filter(
-        prices__isnull=False, photo_products__isnull=False).values(
+        prices__isnull=False, photo_products__isnull=False, name__icontains=q).values(
         'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'photo_products__data', 'prices__price_total', 'category_id__logo').order_by(name_arr)
         filtered_qs = ProductFilter(request.GET, queryset=list_product).qs
     else:
         list_product = Product.objects.filter(
-        prices__isnull=False, category_id__slug=slug, photo_products__isnull=False).values(
+        prices__isnull=False, category_id__slug=slug, photo_products__isnull=False, name__icontains=q).values(
         'name', 'slug', 'sex', 'prices__price', 'prices__sale', 'photo_products__name', 'photo_products__data', 'prices__price_total', 'category_id__logo').order_by(name_arr)
         filtered_qs = ProductFilter(request.GET, queryset=list_product).qs
         

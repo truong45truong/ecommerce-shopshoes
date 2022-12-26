@@ -9,6 +9,12 @@ from django.contrib.auth.backends import ModelBackend
 from product.models import Categories
 import shutil
 import os
+from django.template.defaultfilters import slugify
+
+import random
+import string
+import json
+from django.conf import settings
 
 path_upload = "/home/truobg/Tài liệu/dulieu/Congty/8-2022/djangotrain/PBL/manageshopshoes/media_upload/photos"
 path_root = "/home/truobg/Tài liệu/dulieu/Congty/8-2022/djangotrain/PBL/manageshopshoes/media/photos"
@@ -97,9 +103,14 @@ def registerPage(request):
 @login_required
 def registerStorePage(request):
     list_category = Categories.objects.all()
+    
+    def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))
+    
     current = request.user
     name = request.POST.get('name')
-    email = request.POST.get('phone')
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
     contact = request.POST.get('contact')
     address = request.POST.get('address')
     city = request.POST.get('city')
@@ -110,7 +121,8 @@ def registerStorePage(request):
         if form.is_valid():
             logo = request.FILES['data']
             user_current = User.objects.get(username=current)
-            store = Store(name=name,email=email,contact=contact,city=city,fax=fax,address=address)
+            store = Store(name=name,email=email,contact=contact,city=city,fax=fax,address=address,phone=phone,
+                          slug=slugify(name) + "-" + id_generator())
             store.save()
             user_current.store_id=store
             user_current.save()

@@ -49,9 +49,9 @@
                 {% if priceProduct.sale == 0.0 %}
                           {{priceProduct.price|intcomma}}VND
                         {% else %}
-                          <span class="small"><del>{{priceProduct.price|intcomma}}VND</del></span>
+                          <span class="fs-6"><del>{{priceProduct.price|intcomma}}VND</del></span>
                           &nbsp {{priceProduct.price_total|intcomma}}VND
-                          &nbsp<span class=" bg-danger">{{priceProduct.sale|intcomma}}</span>
+                          &nbsp<span class=" bg-danger price_sale">{{priceProduct.sale|intcomma}}%</span>
                         {% endif %}</h5>
                 <div class="row g-3 align-items-center">
                   <label for="selectSize" class="col-auto me-4">Kích cỡ:</label>
@@ -100,7 +100,7 @@
                 <div class="card-body">
                     <!-- <h5 class="card-title">Shop</h5> -->
                     <div class="infoShop">
-                        <a href="" class="me-3"><img src="/media/photos/stores/{{storeInfo.logo}}" class="UserImg img-fluid" alt="{{storeInfo.name}}"></a>
+                        <a href="{% url 'detailstore' slugstore=storeInfo.slug %}" class="me-3"><img src="/media/photos/stores/{{storeInfo.logo}}" class="UserImg img-fluid" alt="{{storeInfo.name}}"></a>
                         <div class="flex-column justify-content-between">
                           <span class="nameShop">{{storeInfo.name}}</span>
                         </div>
@@ -156,30 +156,36 @@
                       {% for pro in products %}
                       {% load humanize %} 
                       <div class="col-md-3 col-5 mb-2 ">
-                        <div class="content-col justify-content-between">
-                          <a href="{% url 'productdetail' slug=pro.slug %}"><img src="/media/photos/products/{{pro.photo_products__data}}"></a>
-                          {% if pro.prices__sale > 0.0 %}
-                          <div class="ribbon sale">SALE&nbsp{{pro.prices__sale}}%</div>
-                          <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
-                          {% endif %}
-                          <div class="text-center content-card">
-                            <p>{{pro.id}}</p>
-                            <p class="price">
-                              {{pro.prices__price|intcomma}}VND
-                            </p>
-                            <a href="" class="text-decoration-none"><p class="name-product">{{pro.name|truncatechars:30}}</p></a>
-                            {% if pro.sex == 0 %}
-                            <p class="sex-product">Cả nam và nữ</p>
+                        <div class="content-col  text-center">
+                          <form action="{% url 'productdetail' slug=pro.slug %}" method="">
+                            {% csrf_token %}
+                            <img class="border-2" src="/media/photos/products/{{pro.photo_products__data}}">
+                            {% if pro.prices__sale > 0.0 %}
+                            <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
+                            <div class="ribbon sale">SALE {{pro.prices__sale}}%</div>
                             {% endif %}
-                            {% if pro.sex == 1 %}
-                            <p class="sex-product" id="sex-product-detail">Nam</p>
-                            {% endif %}
-                            {% if pro.sex == 2 %}
-                            <p class="sex-product">Nữ</p>
-                            {% endif %}
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal{{pro.slug}}">
-                              <i class="fa-solid fa-cart-shopping me-2"></i>Thêm vào giỏ hàng</button>
-                          </div>
+                            <div class="text-center content-card text-black">
+                              <p class="name-product">{{pro.name|truncatechars:25}}</p>
+
+                              {% if pro.sex == 0 %}
+                              <p class="sex-product">Cả nam và nữ</p>
+                              {% endif %}
+                              {% if pro.sex == 1 %}
+                              <p class="sex-product" id="sex-product-detail">Nam</p>
+                              {% endif %}
+                              {% if pro.sex == 2 %}
+                              <p class="sex-product">Nữ</p>
+                              {% endif %}
+                              
+                              <p class="price">
+                                {{pro.prices__price_total|intcomma}}VND
+                              </p>
+                            </div>
+                            <!-- <a href="{% url 'productdetail' slug=pro.slug %}" class="text-decoration-none"></a> -->
+                            <button type="submit" class="btn btn-secondary w-75 rounded-2">
+                              Xem chi tiết</button>
+                            <!-- </a> -->
+                          </form>
                         </div>
                       </div>
                       {% endfor %}

@@ -19,13 +19,7 @@
   color: #F8463F;
 }
 .price-value-product{
-  /* top:47.4%;
-  font-size: 14px;
-  left: 2%;
-  background-color: white;
-  font-family: 'Courier New', Courier, monospace;
-  text-decoration: line-through; */
-  bottom: 14em;
+  bottom: 12.9em;
   left: 0px;
   z-index: 999;
   display: inline-block;
@@ -37,7 +31,7 @@
   text-decoration: line-through;
   /* font-family: 'Courier New', Courier, monospace; */
 }
-#carouselProduct.carousel-inner {
+#carouselProduct .carousel-inner {
     overflow: visible;
   }
   
