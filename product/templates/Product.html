@@ -127,7 +127,7 @@
                 <div class="content-col  text-center product-item">
                     <form style="display: flex; flex-direction:column; align-content:space-between; height:400px;" action="{% url 'productdetail' slug=pro.slug %}" method="POST">
                       {% csrf_token %}
-                      <img style="width:230px; height:230px" class="border-2 mb-2" src="/media/photos/products/{{pro.photo_products__data}}">
+                      <img style="width:223.7px; height:230px" class="border-2 mb-2" src="/media/photos/products/{{pro.photo_products__data}}">
                       {% if pro.prices__sale > 0.0 %}
                       <p class="position-absolute price-value-product">{{pro.prices__price|intcomma}}VND</p>
                       <div class="ribbon sale">SALE {{pro.prices__sale}}%</div>
@@ -150,7 +150,7 @@
                         </p>
                       </div>
                       <!-- <a href="{% url 'productdetail' slug=pro.slug %}" class="text-decoration-none"></a> -->
-                      <button type="submit" class="btn btn-secondary w-75 rounded-2">
+                      <button type="submit" class="btn btn-secondary w-100 rounded-2">
                         Xem chi tiết</button>
                       <!-- </a> -->
                     </form>
