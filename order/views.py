@@ -61,20 +61,21 @@ def processingSynthesisProduct(data):
                 'name', 'slug', 'sex', 'prices__price', 'prices__sale',
                 'photo_products__name', 'prices__price_total', 'category_id__logo' , 'sizes__size' , 'sizes__quantity'
             )
-            list_product.append(
-                {
-                    'name': item[0]['name'],
-                    'slug': item[0]['slug'],
-                    'sex': item[0]['sex'],
-                    'sale': item[0]['prices__sale'],
-                    'photo': item[0]['photo_products__name'],
-                    'price_total': item[0]['prices__price_total'],
-                    'category': item[0]['category_id__logo'],
-                    'size': item[0]['sizes__size'],
-                    'quantity' : data[i][index]['quantity'],
-                    'quantityMax' : item[0]['sizes__quantity'],
-                }
-            )
+            if len(item) ==1 :    
+                list_product.append(
+                    {
+                        'name': item[0]['name'],
+                        'slug': item[0]['slug'],
+                        'sex': item[0]['sex'],
+                        'sale': item[0]['prices__sale'],
+                        'photo': item[0]['photo_products__name'],
+                        'price_total': item[0]['prices__price_total'],
+                        'category': item[0]['category_id__logo'],
+                        'size': item[0]['sizes__size'],
+                        'quantity' : data[i][index]['quantity'],
+                        'quantityMax' : item[0]['sizes__quantity'],
+                    }
+                )
         # total_price = total_price + \
         #     int(data[i])*float(item[0]['prices__price_total'])
     return 0, list_product
