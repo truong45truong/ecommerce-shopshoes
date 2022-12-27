@@ -15,9 +15,12 @@ import json
  
 @login_required
 def myStorePage(request):
-    list_category = Categories.objects.all()
-    dataStore = Store.objects.filter(users__username=request.user)
-    print(dataStore[0])
+    try :
+        list_category = Categories.objects.all()
+        dataStore = Store.objects.filter(users__username=request.user)
+        print(dataStore[0])
+    except:
+        pass
     order = []
     try :
         process_order = Process_order.objects.filter(process= 1 , store_id = dataStore[0])
