@@ -1,11 +1,11 @@
 from django.urls import path,include
-from rest_framework import routers
-from . import views
+from .views import  DetailOrderViewset
 
-router = routers.DefaultRouter()
-router.register(r'order',views.OrderViewset)
-router.register(r'detailorder',views.DetailOrderViewset)
+
+detail_order = DetailOrderViewset.as_view({
+    'get' : 'get_detail_order',
+})
 
 urlpatterns = [
-    path('',include((router.urls))),
+    path('detail-order/',detail_order,name="get_detail_order")
 ]

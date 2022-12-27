@@ -8,7 +8,7 @@ class DetailOrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Detail_order
-        fields = ['product_id','status','quantity']
+        fields = ['product_id','status','quantity','size']
     def create(self, validated_data):
         detail_order = Detail_order.objects.create(**validated_data)
         return detail_order
