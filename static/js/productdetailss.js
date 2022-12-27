@@ -26,20 +26,20 @@ $(document).ready(function () {
         e.preventDefault()
         console.log("runnning add to cart")
         var product_slug = $(this).closest(`.product_data`).find(`.prod_slug`).val()
-        var product_size = false
         var product_qty = $(this).closest(`.product_data`).find(`.qty-item`).val()
-        var headers = {'X-CSRFToken': $('input[name=csrfmiddlewaretoken]').val() };
+        var token = $(`input[name-csrfmiddlewaretoken]`).val()
+        var product_size = 0
 
         for (i of document.getElementsByClassName("prod_size")){
             if(i.checked == true){
                 product_size = i.value
             }
         }
+        console.log(product_size)
         $.ajax({
             method: "POST",
             url: "/order/addtocart",
             contentType: "json",
-            headers: headers,
             data:JSON.stringify({
                 slug : product_slug,
                 sizes: product_size,

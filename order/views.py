@@ -100,7 +100,7 @@ def shoppingCartPage(request):
     else :
         return render(request, 'shoppingcart.html', {'product': products, 'total_price': total_price,
                                                      'list_category': list_category, 'list_trainsport':list_trainsport,'current':False})
-
+@csrf_exempt
 def add_to_cart(request):
 
     def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
@@ -109,9 +109,8 @@ def add_to_cart(request):
     def add_with_account(request):
         user = User.objects.get(username=request.user)
         customer = user.customer_id
-        
         detail_order = Detail_order(
-            status=False, quantity=data['quantity'], product_id=product,size = data['sizes'],customer_id=customer)
+            status=False, quantity=data['quantity'], product_id=product,size = int(data['sizes']),customer_id=customer)
         detail_order.save()
 
 
@@ -131,7 +130,7 @@ def add_to_cart(request):
     
     data = json.loads(request.body.decode('utf-8'))
     product = Product.objects.get(slug=data['slug'])
-    
+    print(data['sizes'])
     if request.user.is_authenticated:
         add_with_account(request)
     else:
