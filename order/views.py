@@ -20,7 +20,7 @@ def getProductOfUser(request, data):
     if current_user.is_authenticated:
         user = User.objects.get(username=current_user)
         customer = Customer.objects.filter(users__username=user)
-        product_cart_user = Detail_order.objects.filter(customer_id=customer[0]).values(
+        product_cart_user = Detail_order.objects.filter(customer_id=customer[0],order_id__isnull=True).values(
             'product_id','quantity','size'
         )
         
@@ -108,7 +108,7 @@ def add_to_cart(request):
     def add_with_account(request):
         user = User.objects.get(username=request.user)
         customer = user.customer_id
-
+        
         detail_order = Detail_order(
             status=False, quantity=data['quantity'], product_id=product,size = data['sizes'],customer_id=customer)
         detail_order.save()
@@ -142,18 +142,17 @@ def add_to_cart(request):
 def remove_to_cart (request):
     data = json.loads(request.body.decode('utf-8'))
     product = Product.objects.get(slug=data['slug'])
+    size = data['sizes']
     current_user = request.user
     
     if current_user.is_authenticated:
         user = User.objects.get(username=current_user)
         customer = Customer.objects.filter(users__username=user)
-        product_cart_user = Order.objects.filter(customer_id=customer[0], detail_orders__isnull=False).values(
-            'detail_orders__product_id__slug', 'detail_orders__quantity' , 'detail_orders__size' ,'detail_orders__id'
+        product_cart_user = Detail_order.objects.filter(customer_id=customer[0],product_id=product,size=size).values(
+            "id" 
         )
         for item in product_cart_user:
-            print("delete running")
-            if(item['detail_orders__product_id__slug'] == data['slug']) and (item['detail_orders__size'] == int(data['sizes'])):
-                Detail_order.objects.get(id=item['detail_orders__id']).delete()
+                Detail_order.objects.get(id=item['id']).delete()
                 print("delete sucess")
     try:
         dataSession = request.session['cart']

@@ -13,9 +13,10 @@ class DetailOrderViewset(viewsets.ModelViewSet):
     def get_detail_order(self,request,*args, **kwargs):
         customer_slug = request.GET['slug']
         customer = Customer.objects.get(slug = customer_slug)
-        queryset = Detail_order.objects.filter(order_id__isnull = True , customer_id = customer,product_id__photo_products__isnull=False).values(
-            'product_id__name','quantity','size','product_id__photo_products__name'
+        queryset = Detail_order.objects.filter(order_id__isnull = True , customer_id = customer,product_id__photo_products__isnull=False,product_id__prices__isnull=False).values(
+            'product_id__name','quantity','size','product_id__photo_products__name','product_id__prices__price',
+            'product_id__slug','product_id__prices__price_total','product_id__prices__sale'
         )
-        print(queryset.query)
+        print(queryset)
         serializer = DetailOrderSerializer(queryset, many = True)
         return Response(serializer.data)

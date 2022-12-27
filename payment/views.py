@@ -248,4 +248,19 @@ def payOnReceipt(request):
     except:
         return HttpResponse('Mua hàng thất bại')
     return HttpResponse('Mua hàng thành công')
-    
+
+@login_required  
+@csrf_exempt
+def removePayment(request):
+    try :
+        # customer = request.user.customer_id
+        # data = json.loads(request.body.decode('utf-8'))
+        # payment = Payment.objects.get(slug=data['slug'])
+        # order = Order.objects.filter(id=payment.order_id.id,status=False)
+        # product = Detail_order.objects.get(order_id = order[0])
+        # print(product)
+        # product.order_id = None
+        # product.save()
+        pass
+    except:
+        pass
