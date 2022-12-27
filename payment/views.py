@@ -134,38 +134,20 @@ def paymentPage (request):
                                        'customer': customer, 'product':product,'order':order, 'transport': transport,
                                        'slug':payment.slug, 
                                        })
-def paypal_return(request,sender, **kwargs):
-    messages.success(request,"successfully make a payment")
-    ipn_obj = sender
-    # Retrieve the order_number previously passed
-    order_number = ipn_obj.invoice
-    # Get the order :D
-    order = Order.objects.get(order_number=order_number)
+def paypal_return(request):
     list_category = Categories.objects.all()
     return render(request, 'check.html', 
-                          {'error': order_number, 'cd':True,'list_category':list_category})
+                          {'error': "Thành công", 'cd':True,'list_category':list_category})
     
-def paypal_reverse(request,sender, **kwargs):
-    messages.success(request,"successfully make a payment")
-    ipn_obj = sender
-    # Retrieve the order_number previously passed
-    order_number = ipn_obj.invoice
-    # Get the order :D
-    order = Order.objects.get(order_number=order_number)
+def paypal_reverse(request):
     list_category = Categories.objects.all()
     return render(request, 'check.html', 
-                          {'error': order_number, 'cd':True,'list_category':list_category})
+                          {'error': "Thành công", 'cd':True,'list_category':list_category})
     
-def paypal_cancel(request,sender, **kwargs):
-    messages.success(request,"successfully make a payment")
-    ipn_obj = sender
-    # Retrieve the order_number previously passed
-    order_number = ipn_obj.invoice
-    # Get the order :D
-    order = Order.objects.get(order_number=order_number)
+def paypal_cancel(request):
     list_category = Categories.objects.all()
     return render(request, 'check.html', 
-                          {'error': "da thoát khỏi thanh toán", 'cd':True,'list_category':list_category})
+                          {'error': "Đã thoát khỏi thanh toán", 'cd':False,'list_category':list_category})
 
 
 
