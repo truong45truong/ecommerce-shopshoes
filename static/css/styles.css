@@ -43,7 +43,7 @@ header .top{
 }
 #search input{
     border-color: transparent;
-    border-radius:10px;
+    border-radius:5px;
 }
 #bar-menu{
     display: none;
