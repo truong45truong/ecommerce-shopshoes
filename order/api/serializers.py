@@ -1,14 +1,13 @@
 from order.models import Order, Detail_order
 from product.models import Product
 from rest_framework import serializers
-
+from product.api.serializers import ProductSerializer
 class DetailOrderSerializer(serializers.ModelSerializer):
-    status = serializers.BooleanField()
-    quantity = serializers.IntegerField()
-
+    product_id__name = serializers.CharField()
+    product_id__photo_products__name = serializers.CharField()
     class Meta:
         model = Detail_order
-        fields = ['product_id','status','quantity','size']
+        fields = ['product_id','product_id__name','quantity','size','product_id__photo_products__name']
     def create(self, validated_data):
         detail_order = Detail_order.objects.create(**validated_data)
         return detail_order
