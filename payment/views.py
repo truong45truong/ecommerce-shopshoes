@@ -133,21 +133,22 @@ def paymentPage (request):
     return render(request,'test.html',{'list_category':list_category,'form':form ,'current': current ,
                                        'customer': customer, 'product':product,'order':order, 'transport': transport,
                                        'slug':payment.slug, 
-                                       })
+                                     })
+@login_required
 def paypal_return(request):
     list_category = Categories.objects.all()
     return render(request, 'check.html', 
-                          {'error': "Thành công", 'cd':True,'list_category':list_category})
-    
+                          {'error': "Thành công", 'current' : request.user, 'cd':True,'list_category':list_category})
+@login_required   
 def paypal_reverse(request):
     list_category = Categories.objects.all()
     return render(request, 'check.html', 
-                          {'error': "Thành công", 'cd':True,'list_category':list_category})
-    
+                          {'error': "Thành công", 'current' : request.user, 'cd':True,'list_category':list_category})
+@login_required
 def paypal_cancel(request):
     list_category = Categories.objects.all()
     return render(request, 'check.html', 
-                          {'error': "Đã thoát khỏi thanh toán", 'cd':False,'list_category':list_category})
+                          {'error': "Đã thoát khỏi thanh toán", 'current' : request.user, 'cd':False,'list_category':list_category})
 
 
 
@@ -255,12 +256,12 @@ def payOnReceipt(request):
         else:
             delete()
             return render(request, 'check.html', 
-                          {'error': 'Mua hàng thất bại!', 'cd':False,'list_category':list_category})
+                          {'error': 'Mua hàng thất bại!','current' : request.user, 'cd':False,'list_category':list_category})
     except:
         return render(request, 'check.html', 
-                          {'error': 'Mua hàng thất bại!', 'cd':False,'list_category':list_category})
+                          {'error': 'Mua hàng thất bại!', 'current' : request.user, 'cd':False,'list_category':list_category})
     return render(request, 'check.html', 
-                          {'error': 'Mua hàng thành công!', 'cd':True,'list_category':list_category})
+                          {'error': 'Mua hàng thành công!', 'current' : request.user, 'cd':True,'list_category':list_category})
 
 @login_required  
 @csrf_exempt

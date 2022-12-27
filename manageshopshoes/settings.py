@@ -73,6 +73,7 @@ TEMPLATES = [
                     '/home/templates',
                     BASE_DIR / 'product/templates',
                     BASE_DIR / 'store/templates',
+                    BASE_DIR / 'payment/templates',
                 ],
         'APP_DIRS': True,
         'OPTIONS': {
