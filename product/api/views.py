@@ -6,7 +6,6 @@ from product.models import Product, Size, Price ,Categories
 from .serializers import PriceSerializer, ProductSerializer, SizesSerializer,CategorySerializer
 
 class Productviewset(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
     queryset = Price.objects.all()
 
     @action(method=["GET"],detail=False,url_path="product",url_name="get_product")
