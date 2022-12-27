@@ -53,7 +53,8 @@ def paymentPage (request):
     list_category = Categories.objects.all()
     productPay = str(request.GET['productPay']).split('_')
     if checkOrder(productPay) == False :
-        return HttpResponse(" mời mua lại những sản phẩm cùng cửa hàng")
+        return render(request, 'check.html', 
+                          {'error': 'Hãy mua những sản phẩn cùng cửa hàng!', 'cd':False,'list_category':list_category})
     store_check=""
     
     current = request.user
@@ -223,6 +224,7 @@ def qrcodePage(request,token):
 @login_required  
 @csrf_exempt
 def payOnReceipt(request):
+    list_category = Categories.objects.all()
     def delete():
         qrcode = Qrcode.objects.get(id=payment.qrcode.id)
         process_order = Process_order.objects.get(order_id=order)
@@ -244,10 +246,13 @@ def payOnReceipt(request):
             RemoveOrderCash(customer)
         else:
             delete()
-            return HttpResponse('Mua hàng thất bại')
+            return render(request, 'check.html', 
+                          {'error': 'Mua hàng thất bại!', 'cd':False,'list_category':list_category})
     except:
-        return HttpResponse('Mua hàng thất bại')
-    return HttpResponse('Mua hàng thành công')
+        return render(request, 'check.html', 
+                          {'error': 'Mua hàng thất bại!', 'cd':False,'list_category':list_category})
+    return render(request, 'check.html', 
+                          {'error': 'Mua hàng thành công!', 'cd':True,'list_category':list_category})
 
 @login_required  
 @csrf_exempt
