@@ -8,6 +8,9 @@ def valid_ipn_signal(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == 'Completed':
         payment = Payment.objects.get(id = ipn_obj.invoice)
+        order = Order.objects.get(id= payment.order_id.id)
+        order.status= True
+        order.save()
         payment.allowed = True
         payment.date_pay = datetime.datetime.now()
         payment.save()
