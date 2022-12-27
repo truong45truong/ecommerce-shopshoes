@@ -6,10 +6,10 @@ from order.models import Order
 def valid_ipn_signal(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == 'Completed':
-        print("valid")
+        print("valid",ipn_obj.invoice)
 
 @receiver(invalid_ipn_received)
 def invalid_ipn_signal(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == 'Completed':
-        print("invalid")
+        print("invalid",ipn_obj.invoice)
