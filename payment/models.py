@@ -51,6 +51,8 @@ class Payment(models.Model):
     allowed = models.BooleanField()
     datetime = models.DateTimeField()
     slug = models.CharField(max_length=100,null=False,blank=True)
+    date_pay = models.DateTimeField(null = True)
+    pay_ipn = models.CharField(max_length=100,null=True,blank=True)
     qrcode = models.ForeignKey(Qrcode, on_delete=models.SET_NULL, null=True,blank=True,related_name='qrcodes')
     order_id = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True,blank=True,related_name='payments')
 

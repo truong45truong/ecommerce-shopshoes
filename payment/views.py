@@ -53,7 +53,8 @@ def paymentPage (request):
     list_category = Categories.objects.all()
     productPay = str(request.GET['productPay']).split('_')
     if checkOrder(productPay) == False :
-        return HttpResponse(" mời mua lại những sản phẩm cùng cửa hàng")
+        return render(request, 'check.html', 
+                          {'error': 'Hãy mua những sản phẩn cùng cửa hàng!', 'cd':False,'list_category':list_category})
     store_check=""
     
     current = request.user
@@ -134,13 +135,21 @@ def paymentPage (request):
                                        'slug':payment.slug, 
                                        })
 def paypal_return(request):
-    messages.success(request,"successfully make a payment")
-    return redirect('payment')
+    list_category = Categories.objects.all()
+    return render(request, 'check.html', 
+                          {'error': "Thành công", 'cd':True,'list_category':list_category})
+    
 def paypal_reverse(request):
-    print(request.GET)
-    return redirect('payment')
+    list_category = Categories.objects.all()
+    return render(request, 'check.html', 
+                          {'error': "Thành công", 'cd':True,'list_category':list_category})
+    
 def paypal_cancel(request):
-    return redirect('payment')
+    list_category = Categories.objects.all()
+    return render(request, 'check.html', 
+                          {'error': "Đã thoát khỏi thanh toán", 'cd':False,'list_category':list_category})
+
+
 
 @login_required
 def qrcodePage(request,token):
@@ -223,6 +232,7 @@ def qrcodePage(request,token):
 @login_required  
 @csrf_exempt
 def payOnReceipt(request):
+    list_category = Categories.objects.all()
     def delete():
         qrcode = Qrcode.objects.get(id=payment.qrcode.id)
         process_order = Process_order.objects.get(order_id=order)
@@ -244,11 +254,26 @@ def payOnReceipt(request):
             RemoveOrderCash(customer)
         else:
             delete()
-            return render(request, 'error.html', 
-                          {'error': 'Mua hàng thất bại!', 'cd':False,})
+            return render(request, 'check.html', 
+                          {'error': 'Mua hàng thất bại!', 'cd':False,'list_category':list_category})
     except:
-        return render(request, 'error.html', 
-                          {'error': 'Mua hàng thất bại!', 'cd':False,})
-    return render(request, 'error.html', 
-                          {'error': 'Mua hàng thành công!', 'cd':True,})
-    
+        return render(request, 'check.html', 
+                          {'error': 'Mua hàng thất bại!', 'cd':False,'list_category':list_category})
+    return render(request, 'check.html', 
+                          {'error': 'Mua hàng thành công!', 'cd':True,'list_category':list_category})
+
+@login_required  
+@csrf_exempt
+def removePayment(request):
+    try :
+        # customer = request.user.customer_id
+        # data = json.loads(request.body.decode('utf-8'))
+        # payment = Payment.objects.get(slug=data['slug'])
+        # order = Order.objects.filter(id=payment.order_id.id,status=False)
+        # product = Detail_order.objects.get(order_id = order[0])
+        # print(product)
+        # product.order_id = None
+        # product.save()
+        pass
+    except:
+        pass

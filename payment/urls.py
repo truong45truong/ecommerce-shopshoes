@@ -10,5 +10,6 @@ urlpatterns = [
     path('payment/paypal-cancel',views.paypal_cancel , name="paypal-cancel"),
     path('qrcode/<str:token>/',views.qrcodePage,name='qrcode'),
     path('payonreceipt',views.payOnReceipt),
+    path('removepayment',views.removePayment)
     
 ]
