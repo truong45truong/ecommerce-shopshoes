@@ -9,17 +9,6 @@ from PIL import Image,Image,ImageDraw
 from login.models import User,Store
 import secrets
 import os
-def upload(f, name):
-  path_upload = '/home/truobg/Tài liệu/CDCNT/serverparkmanage/static/qrcode'
-  file = open(
-      os.path.join(path_upload, str(
-          name)),
-      'wb+'
-  )
-  for chunk in f.chunks():
-      file.write(chunk)
-  file.close()
-# Create your models here.
 
 class Qrcode(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -41,7 +30,6 @@ class Qrcode(models.Model):
       stream = BytesIO()
       qr_offset.save(stream,'PNG')
       self.qrcode.save(files_name,File(stream),save=False)
-      upload(File(stream),files_name)
       qr_offset.close()
       super().save(*args,**kwargs)
       
