@@ -125,7 +125,7 @@
               {% for pro in products %}
               <div style="height:420px" class="col-md-3 col-5 mb-5  ">
                 <div class="content-col  text-center product-item">
-                    <form style="display: flex; flex-direction:column; align-content:space-between" action="{% url 'productdetail' slug=pro.slug %}" method="POST">
+                    <form style="display: flex; flex-direction:column; align-content:space-between; height:400px;" action="{% url 'productdetail' slug=pro.slug %}" method="POST">
                       {% csrf_token %}
                       <img style="width:230px; height:230px" class="border-2 mb-2" src="/media/photos/products/{{pro.photo_products__data}}">
                       {% if pro.prices__sale > 0.0 %}
