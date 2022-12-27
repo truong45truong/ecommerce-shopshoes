@@ -9,7 +9,7 @@
 <main>
     <div class="container">
         <div class="text-center">
-            <h3> Register Store</h3>
+            <h3> Đăng kí cửa hàng</h3>
         </div>
         <form action="{% url 'registerstore'%}" method="POST" enctype="multipart/form-data" class="form login">
             {% csrf_token %}
@@ -25,29 +25,29 @@
             <div class="form__field">
                 <label for="login__username"><i class="fa-solid fa-user"></i></label>
                 <input autocomplete="username" id="login__username" type="text" name="name" class="form__input"
-                    placeholder="Name" required>
+                    placeholder="Tên cửa hàng" required>
             </div>
             <div class="form__field">
                 <label for="login__password"><i class="fa-solid fa-envelope"></i></label>
-                <input id="login__password" type="text" name="email" class="form__input" placeholder="email" required>
+                <input id="login__password" type="text" name="email" class="form__input" placeholder="Email" required>
             </div>
             <div class="form__field">
                 <label for="login__password"><i class="fa-solid fa-phone"></i></label>
-                <input id="login__password" type="text" name="phone" class="form__input" placeholder="phone" required>
+                <input id="login__password" type="text" name="phone" class="form__input" placeholder="Số điện thoại" required>
             </div>
             <div class="form__field">
                 <label for="login__username"><i class="fa-solid fa-address-book"></i></label>
                 <input autocomplete="username" id="login__username" type="text" name="contact" class="form__input"
-                    placeholder="Contact" required>
+                    placeholder="Liên hệ" required>
             </div>
             <div class="form__field">
                 <label for="login__password"><i class="fa-solid fa-location-dot"></i></label>
-                <input id="login__password" type="text" name="address" class="form__input" placeholder="Address"
+                <input id="login__password" type="text" name="address" class="form__input" placeholder="Địa chỉ"
                     required>
             </div>
             <div class="form__field">
                 <label for="login__password"><i class="fa-solid fa-city"></i></label>
-                <input id="login__password" type="text" name="city" class="form__input" placeholder="City" required>
+                <input id="login__password" type="text" name="city" class="form__input" placeholder="Tỉnh/Thành phố" required>
             </div>
             <div class="form__field">
                 <label for="login__password"><i class="fa-solid fa-fax"></i></label>
@@ -57,12 +57,11 @@
             <p id='messages' style="color:red;">{{message}}</p>
             {%endfor%}
             <div class="form__field pt-2 d-flex flex-column w-50 m-auto">
-                <input class="w-25" type="submit" value="Sign Up Store">
+                <input class="w-25" type="submit" value="Đăng kí">
             </div>
         </form>
     </div>
 </main>
-{% include 'footer.html' %}
 {% endblock %}
 {% block javastript %}
 {% load static %}

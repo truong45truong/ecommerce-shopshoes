@@ -34,7 +34,7 @@ def homePage(request):
         return render(request,'home.html',
                       { 'current' : False,'page': int(page_number), 'products': page_obj,
                                            'list_category':list_category})
-    
+
 # Create your views here.
 @login_required
 def myAccountPage(request):
@@ -126,3 +126,4 @@ def contactPage(request):
     else :
         
         return render(request,'contact.html',{ 'current' : False ,'list_category':list_category})
+    

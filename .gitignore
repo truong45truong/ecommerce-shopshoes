@@ -1,9 +1,5 @@
 __pycache__
-home/__pycache__
-login/__pycache__
-manageshopshoes/__pycache__
-order/__pycache__
-payment/__pycache__
-product/__pycache__
-store/__pycache__
+../__pycache__
+../../__pycache__
 
+../settings.py

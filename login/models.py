@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class Store(models.Model):
     id = models.BigAutoField(primary_key=True)
+    slug = models.CharField(null=False,max_length=50,unique=True)
     name = models.CharField(max_length=50)
     contact = models.CharField(max_length=50)
     address = models.TextField()

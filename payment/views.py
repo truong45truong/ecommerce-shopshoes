@@ -244,8 +244,11 @@ def payOnReceipt(request):
             RemoveOrderCash(customer)
         else:
             delete()
-            return HttpResponse('Mua hàng thất bại')
+            return render(request, 'error.html', 
+                          {'error': 'Mua hàng thất bại!', 'cd':False,})
     except:
-        return HttpResponse('Mua hàng thất bại')
-    return HttpResponse('Mua hàng thành công')
+        return render(request, 'error.html', 
+                          {'error': 'Mua hàng thất bại!', 'cd':False,})
+    return render(request, 'error.html', 
+                          {'error': 'Mua hàng thành công!', 'cd':True,})
     

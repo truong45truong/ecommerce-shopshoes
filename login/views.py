@@ -53,7 +53,7 @@ def loginPage(request):
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('home')
         else:
-            messages.success(request, 'Login failed')
+            messages.success(request, 'Đăng nhập thất bại')
             return render(request, "login.html")
 
     return render(request, 'login.html', {'form': form})
@@ -103,9 +103,12 @@ def registerPage(request):
 @login_required
 def registerStorePage(request):
     list_category = Categories.objects.all()
+    def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))
     current = request.user
     name = request.POST.get('name')
-    email = request.POST.get('phone')
+    email = request.POST.get('email')
+    phone = request.POST.get('phone')
     contact = request.POST.get('contact')
     address = request.POST.get('address')
     city = request.POST.get('city')
@@ -116,7 +119,8 @@ def registerStorePage(request):
         if form.is_valid():
             logo = request.FILES['data']
             user_current = User.objects.get(username=current)
-            store = Store(name=name,email=email,contact=contact,city=city,fax=fax,address=address)
+            store = Store(name=name,email=email,contact=contact,city=city,fax=fax,address=address,phone=phone,
+                          slug=slugify(name) + "-" + id_generator())
             store.save()
             user_current.store_id=store
             user_current.save()

@@ -102,6 +102,16 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'manageshopshoes',
+        'USER':'root',
+        'PASSWORD':'',
+        'HOST':'localhost',
+        'PORT': '3307',
+    }
+}
 
 
 # Password validation

@@ -11,4 +11,12 @@ $(document).ready(()=>{
         }
         stateBar=!stateBar
     })
+    $(".btnChangePW").click(function(){
+        $(".formChangePassword").show();
+        $(".btnChangePW").hide();
+    })
+    $(".btnCancelCPW").click(function(){
+        $(".btnChangePW").show();
+        $(".formChangePassword").hide();
+    })
 })

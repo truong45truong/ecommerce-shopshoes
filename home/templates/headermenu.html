@@ -11,21 +11,23 @@
               <i class="fa fa-user"></i>
               {% if current != False %}
               <p class="content-icon-header mx-2">{{current}}</p>
-              {% else %}
-              <p class="content-icon-header"> <a class="link-danger text-decoration-none mx-2" href="{% url 'login' %}">login</a> </p>
-              {% endif %}
               <i class="fa-solid fa-caret-down"></i>
+              {% else %}
+              <p class="content-icon-header"> <a class="link-danger text-decoration-none mx-2" href="{% url 'login' %}">Đăng nhập</a> </p>
+              {% endif %}
             </div>
             <div>
               <i class="fa-sharp fa-solid fa-gear fa-spin"></i>
-              <p class="content-icon-header">setting</p>
+              <p class="content-icon-header">Cài đặt</p>
               <i class="fa-solid fa-caret-down"></i>
             </div>
           </div>
           <div class="d-flex">
-            <form id="search" class="me-4">
-              <input class="m-1" type="text" placeholder="   search">
-              <i class="fa fa-search ms-2"></i>
+            <form id="search" class="me-4" action="{% url 'product' slug='0' %}" method="GET">
+              <input class="m-1" type="text" placeholder="Nhập tên sản phẩm..." name="q">
+              <button class="bg-transparent border-0" value="Search" name="s" type="submit">
+                <i class="fa fa-search ms-2 text-white"></i>
+              </button>
             </form>
             <div class="d-flex align-content-center">
               <a id="shopping-cart-link text-white text-decoration-none" href="{% url 'shoppingcart' %}">
@@ -37,9 +39,9 @@
         {% if current != False %}
         <ul class="account-bar">
           <div class="container">
-            <li><a class="text-white text-decoration-none" href="{% url 'myaccount' %}">Customers</a></li>
-            <li><a class="text-white text-decoration-none" href="{% url 'mystore' %}">Manage Store</a></li>
-            <li><a class="text-white text-decoration-none" href="{% url 'logout' %}">Logout</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'myaccount' %}">Hồ sơ của tôi</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'mystore' %}">Cửa hàng của tôi</a></li>
+            <li><a class="text-white text-decoration-none" href="{% url 'logout' %}">Đăng xuất</a></li>
           </div>
         </ul>
         {% endif %}
@@ -52,50 +54,46 @@
             <div class="brand">
               <img id="logo" src="{% static 'image/VALENIA ISABEL1.png' %}">
             </div>
-            <form id="search-bottom">
-              <input class="m-1" type="text" placeholder="   search">
-              <i class="fa fa-search ms-2"></i>
-            </form>
             <ul class="navbar-nav">
               <li class="bar-exit"><i class="fa-solid fa-x"></i></li>
               <li class="nav-item">
-                <a class="nav-link text-black" href="{% url 'home' %}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link"  href="{% url 'introduce' %}">Introduce</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link"  href="{% url 'contact' %}">Contact</a>
+                <a class="nav-link text-black" href="{% url 'home' %}">Trang chủ</a>
               </li>
               <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">Category</a>
-              {% load mptt_tags %}
-              <ul class="root dropdown-menu">
-                {% recursetree list_category %}
-                <li class="dropend">
-                  <a 
-                  {% if not node.is_leaf_node %}
-                  class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
-                  {% else %}
-                  class="dropdown-item"
-                  {% endif %}
-                  href="">
-                    {{ node.name }}
-                  </a>
-                  {% if not node.is_leaf_node %}
-                  <ul class="children dropdown-menu">
-                    {% comment %} <li><a class="dropdown-item" href="account-orders.html">Orders History</a></li> {% endcomment %}
-                    {% for subcate in node.get_children %}
-                    <li>
-                      <a class="dropdown-item" href="{% url 'product' slug=subcate.slug %}">{{subcate.name}}</a>
-                    </li>
-                    {% endfor %}
-                  </ul>
-                  {% endif %}
-                </li>
-                {% endrecursetree %}
-              </ul>
-            </li>
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside">Loại sản phẩm</a>
+                {% load mptt_tags %}
+                <ul class="root dropdown-menu">
+                  {% recursetree list_category %}
+                  <li class="dropend">
+                    <a 
+                    {% if not node.is_leaf_node %}
+                    class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown"
+                    {% else %}
+                    class="dropdown-item"
+                    {% endif %}
+                    href="">
+                      {{ node.name }}
+                    </a>
+                    {% if not node.is_leaf_node %}
+                    <ul class="children dropdown-menu">
+                      {% comment %} <li><a class="dropdown-item" href="account-orders.html">Orders History</a></li> {% endcomment %}
+                      {% for subcate in node.get_children %}
+                      <li>
+                        <a class="dropdown-item" href="{% url 'product' slug=subcate.slug %}">{{subcate.name}}</a>
+                      </li>
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
+                  </li>
+                  {% endrecursetree %}
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  href="{% url 'introduce' %}">Giới thiệu</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"  href="{% url 'contact' %}">Liên hệ</a>
+              </li>
             </ul>
             <div id="bar-menu">
               <i class="fa-solid fa-bars"></i>
