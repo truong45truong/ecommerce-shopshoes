@@ -96,7 +96,7 @@
               id="rangeInput" value="{{filterPrice}}" oninput="maxprice.value=this.value" step="1000">
             <form method="get" action="">
             {% csrf_token %}
-                <= <input type="number" disabled="" id="maxprice" name="filterPrice" class="border-0 mt-1"
+                <= <input type="number" readonly="" id="maxprice" name="filterPrice" class="border-0 mt-1"
                     onkeyup="rangeInput.value=this.value" value="{{filterPrice}}{{minMaxPrice.prices__price_total__max}}">
                 <button type="submit" class="float-end bg-secondary text-white">Lọc giá</button>
             </form>
