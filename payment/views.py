@@ -144,9 +144,18 @@ def paypal_return(request,sender, **kwargs):
     list_category = Categories.objects.all()
     return render(request, 'check.html', 
                           {'error': order_number, 'cd':True,'list_category':list_category})
-def paypal_reverse(request):
-    print(request.GET)
-    return redirect('payment')
+    
+def paypal_reverse(request,sender, **kwargs):
+    messages.success(request,"successfully make a payment")
+    ipn_obj = sender
+    # Retrieve the order_number previously passed
+    order_number = ipn_obj.invoice
+    # Get the order :D
+    order = Order.objects.get(order_number=order_number)
+    list_category = Categories.objects.all()
+    return render(request, 'check.html', 
+                          {'error': order_number, 'cd':True,'list_category':list_category})
+
 def paypal_cancel(request):
     return redirect('payment')
 
